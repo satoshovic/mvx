@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="fr" class="intro-on">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Le Finance Computer : l'économie machine-native sur MultiversX</title>
+<meta name="description" content="Le Finance Computer (MultiversX, xMoney, xPortal) face à l'économie machine-native décrite par BlackRock : une page interactive, en français et en anglais.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Source+Serif+4:ital,opsz,wght@1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F5F6; --bg-2:#E8ECEE; --surface:#FFFFFF; --ink:#05080B; --ink-2:#4B5661; --rule:#CDD4D9;
+  --teal:#00897B; --teal-soft:rgba(0,137,123,.12); --violet:#05080B; --violet-soft:rgba(5,8,11,.07);
+  --amber:#05080B; --amber-soft:rgba(0,137,123,.3); --glow:0;
+  --display:'Sora','Segoe UI',system-ui,sans-serif; --serif:'Source Serif 4',Georgia,serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#05080B; --bg-2:#0A0F13; --surface:#10161B; --ink:#F2F7F8; --ink-2:#8C9AA5; --rule:#1F2A31;
+  --teal:#23F7DD; --teal-soft:rgba(35,247,221,.12); --violet:#F2F7F8; --violet-soft:rgba(242,247,248,.08);
+  --amber:#FFFFFF; --amber-soft:rgba(35,247,221,.34); --glow:1;}}
+:root[data-theme="dark"]{
+  --bg:#05080B; --bg-2:#0A0F13; --surface:#10161B; --ink:#F2F7F8; --ink-2:#8C9AA5; --rule:#1F2A31;
+  --teal:#23F7DD; --teal-soft:rgba(35,247,221,.12); --violet:#F2F7F8; --violet-soft:rgba(242,247,248,.08);
+  --amber:#FFFFFF; --amber-soft:rgba(35,247,221,.34); --glow:1;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth;overflow-x:clip}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--display);line-height:1.55;overflow-x:clip}
+a{color:var(--teal)} button{font-family:inherit;color:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 clamp(1.1rem,4vw,2.5rem)}
+h1,h2,h3{margin:0;line-height:1.06;letter-spacing:-0.025em}
+h2{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;max-width:17ch}
+.kicker{font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,2vw,1.3rem);color:var(--ink-2);margin:0 0 1rem}
+.sub{color:var(--ink-2);font-size:clamp(1.02rem,1.6vw,1.15rem);max-width:58ch;margin:1.2rem 0 0;font-weight:300}
+section{position:relative;padding:clamp(5rem,11vw,8.5rem) 0;overflow-x:clip}
+.alt{background:var(--bg-2)}
+.pill{border:1px solid var(--rule);background:var(--surface);border-radius:999px;padding:.5rem .95rem;font-size:.85rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem}
+.pill[aria-pressed="true"]{border-color:var(--teal);color:var(--teal);background:var(--teal-soft)}
+.cta{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 1.5rem;border-radius:999px;background:var(--teal);color:var(--bg);font-weight:700;text-decoration:none;border:0;cursor:pointer;font-size:1rem;box-shadow:0 0 calc(40px*var(--glow)) var(--teal-soft)}
+.box{border:1px solid var(--rule);border-radius:22px;background:var(--surface);overflow:hidden}
+
+#prog{position:fixed;left:0;top:0;height:3px;width:0;background:var(--teal);z-index:30}
+.rail{position:fixed;left:1.2rem;top:50%;transform:translateY(-50%);z-index:20;display:none;flex-direction:column;gap:.9rem}
+@media (min-width:1300px){.rail{display:flex}}
+.rail a{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--ink-2);font-size:.75rem;font-weight:600}
+.rail a i{width:8px;height:8px;border-radius:50%;border:1.5px solid var(--ink-2);transition:all .3s}
+.rail a span{opacity:0;transition:opacity .25s}
+.rail:hover a span,.rail a.on span{opacity:1}
+.rail a.on{color:var(--teal)} .rail a.on i{background:var(--teal);border-color:var(--teal);transform:scale(1.3)}
+
+/* ===== HERO ===== */
+.hero{position:relative;min-height:max(100svh,940px);display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 clamp(1.5rem,3.5vw,2.5rem);overflow:hidden;--hv:0}
+#net{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair}
+.veil{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,color-mix(in srgb,var(--bg) calc(var(--hv)*88%),transparent) 0%,color-mix(in srgb,var(--bg) calc(var(--hv)*60%),transparent) 50%,transparent 75%),linear-gradient(180deg,transparent 75%,var(--bg) 100%)}
+.hero-inner{position:relative;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:clamp(1.5rem,3vw,3rem);align-items:end;width:100%}
+.hero h1{font-size:clamp(2.2rem,4.3vw,4rem);font-weight:800;max-width:13ch;letter-spacing:-0.045em}
+.hero .kicker{max-width:44ch}
+.found{max-width:46ch;margin:1rem 0 0;font-size:.95rem;font-weight:600;color:var(--ink-2)}
+.found b{color:var(--ink)} .found em{font-style:normal;color:var(--teal)}
+.hud{display:flex;gap:clamp(1.2rem,3vw,2.4rem);flex-wrap:wrap;margin-top:1.5rem}
+.hud b{display:block;font-size:clamp(1.4rem,2.8vw,2rem);font-weight:800;font-variant-numeric:tabular-nums;color:var(--teal);letter-spacing:-0.02em}
+.hud span{font-size:.78rem;color:var(--ink-2)}
+.game{background:color-mix(in srgb,var(--surface) 88%,transparent);border:1px solid var(--rule);border-radius:20px;padding:1rem 1.1rem;backdrop-filter:blur(10px)}
+.game-top b{display:block;font-size:1.05rem}
+.game-top span{display:block;font-size:.8rem;color:var(--ink-2);margin-top:.2rem}
+.levels{list-style:none;margin:.7rem 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.35rem}
+@media (max-width:420px){.levels{grid-template-columns:1fr}}
+.levels li{min-width:0}
+.lv{width:100%;height:100%;display:grid;grid-template-columns:22px 1fr;gap:.2rem .6rem;align-items:center;text-align:left;border:1px solid var(--rule);background:var(--bg-2);border-radius:12px;padding:.45rem .7rem;cursor:pointer;transition:border-color .2s}
+.lv:hover{border-color:var(--teal)}
+.lv .ic{grid-row:span 3;align-self:start;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:.75rem;font-weight:800;border:1.5px solid var(--ink-2);color:var(--ink-2)}
+.lv .nm{font-weight:700;font-size:.86rem;line-height:1.2}
+.lv .nm small{display:block;font-weight:400;font-size:.66rem;color:var(--ink-2);line-height:1.25}
+.lv .am{font-weight:800;font-size:.8rem;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.lv .pb{grid-column:2;height:5px;border-radius:3px;background:var(--rule);overflow:hidden}
+.lv .pb i{display:block;height:100%;width:0;background:var(--teal);transition:width .15s linear}
+.lv.ok{border-color:color-mix(in srgb,var(--teal) 55%,transparent)}
+.lv.ok .ic{background:var(--teal);border-color:var(--teal);color:#05080B}
+.lv.ok .am{color:var(--teal)}
+.lv.next .ic{border-color:var(--teal);color:var(--teal);animation:blink 1.2s infinite}
+.game-bot{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.8rem}
+.game-bot .cta{padding:.65rem 1.1rem;font-size:.9rem}
+.game-note{font-size:.68rem;color:var(--ink-2);margin:.6rem 0 0}
+.toast{position:absolute;left:50%;top:calc(env(safe-area-inset-top,0px) + 1.2rem);transform:translate(-50%,-20px);opacity:0;transition:all .5s;background:var(--surface);border:1px solid var(--teal);color:var(--ink);padding:.7rem 1.1rem;border-radius:16px;font-weight:600;font-size:.9rem;z-index:5;max-width:92vw;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@keyframes blink{50%{opacity:.3}}
+@media (max-width:900px){
+  .toast{font-size:.78rem;padding:.5rem .8rem}
+  .hero{min-height:auto;padding-top:48svh}
+  #net{height:50svh;bottom:auto}
+  .veil{height:50svh;bottom:auto;background:linear-gradient(180deg,transparent 70%,var(--bg) 100%)}
+  .hero-inner{grid-template-columns:1fr}
+}
+
+/* ===== CLOCK ===== */
+.band{padding:clamp(3.5rem,8vw,6rem) 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.band .big{font-size:clamp(2.2rem,8vw,6.6rem);font-weight:800;letter-spacing:-0.05em;font-variant-numeric:tabular-nums;line-height:1;color:var(--teal);white-space:nowrap}
+.band p{max-width:62ch;color:var(--ink-2);margin:1rem 0 0}
+
+/* ===== TEMPO ===== */
+#ekg{display:block;width:100%;height:180px}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:1.1rem 1.4rem;border-top:1px solid var(--rule)}
+.reads{display:flex;gap:2rem;flex-wrap:wrap}
+.reads b{font-size:1.45rem;font-weight:700;font-variant-numeric:tabular-nums}
+.reads span{display:block;font-size:.8rem;color:var(--ink-2)}
+.switch{display:flex;align-items:center;gap:.8rem;background:none;border:1px solid var(--rule);padding:.4rem .5rem .4rem 1rem;border-radius:999px;cursor:pointer;font-size:.95rem;font-weight:700}
+.knob{width:54px;height:30px;border-radius:999px;background:var(--bg-2);position:relative}
+.knob::after{content:"";position:absolute;top:4px;left:4px;width:22px;height:22px;border-radius:50%;background:var(--ink-2);transition:transform .35s cubic-bezier(.5,1.6,.4,1)}
+.switch[aria-checked="true"] .knob{background:var(--teal-soft)}
+.switch[aria-checked="true"] .knob::after{transform:translateX(24px);background:var(--teal)}
+.race{margin-top:1.25rem;padding:1.4rem}
+.race h3{font-size:1.15rem;font-weight:700}
+.race>p{margin:.35rem 0 1.2rem;color:var(--ink-2);font-size:.95rem}
+.lane{display:grid;grid-template-columns:170px 1fr 92px;gap:1rem;align-items:center;margin:.75rem 0}
+@media (max-width:600px){.lane{grid-template-columns:1fr 70px}.lane .track{grid-column:1/-1;grid-row:2}}
+.lane .nm{font-size:.85rem;font-weight:600}
+.lane .nm small{display:block;font-weight:400;color:var(--ink-2);font-size:.72rem}
+.track{height:14px;border-radius:999px;background:var(--bg-2);overflow:hidden;position:relative}
+.fill{position:absolute;inset:0 auto 0 0;width:0;border-radius:999px;background:var(--ink-2)}
+.lane.f .fill{background:var(--teal)}
+.lane .t{font-variant-numeric:tabular-nums;font-weight:700;text-align:right;font-size:.9rem}
+.lane.f .nm,.lane.f .t{color:var(--teal)}
+.verdict{font-size:.95rem;color:var(--teal);font-weight:600}
+.logbar{display:flex;justify-content:space-between;align-items:center;margin-top:1rem;gap:.8rem;flex-wrap:wrap}
+
+/* ===== USE CASES (HUB) ===== */
+.os{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-top:2.2rem}
+@media (max-width:760px){.os{grid-template-columns:1fr}}
+.osb{text-align:left;border:1px solid var(--rule);background:var(--surface);border-radius:18px;padding:1rem 1.1rem;cursor:pointer}
+.osb b{display:block;font-size:1.15rem}
+.osb span{font-size:.85rem;color:var(--ink-2)}
+.osb[aria-pressed="true"]{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal)}
+.osb[aria-pressed="true"] b{color:var(--teal)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.8rem;margin-top:1rem}
+.uc{text-align:left;border:1px solid var(--rule);background:var(--surface);border-radius:16px;padding:.95rem 1rem;cursor:pointer;display:flex;flex-direction:column;gap:.35rem;transition:transform .2s,border-color .2s;min-height:160px}
+.uc:hover{transform:translateY(-3px);border-color:var(--teal)}
+.uc[aria-pressed="true"]{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal)}
+.uc .ic{font-size:1.35rem;line-height:1}
+.uc h3{font-size:1rem;font-weight:700;letter-spacing:-0.01em}
+.uc p{margin:0;font-size:.84rem;color:var(--ink-2);flex:1}
+.uc .meta{display:flex;justify-content:space-between;align-items:center;font-size:.7rem;font-weight:700}
+.uc .sec{color:var(--ink-2)}
+.st{padding:.12rem .5rem;border-radius:999px}
+.st.ok{background:var(--teal-soft);color:var(--teal)}
+.st.v{background:none;color:var(--ink-2);border:1px dashed var(--ink-2)}
+.uc.hide{display:none}
+.theatre{margin-top:1.6rem;display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:1.1rem;scroll-margin-top:1rem}
+@media (max-width:920px){.theatre{grid-template-columns:1fr}}
+.scene svg{display:block;width:100%;height:auto}
+.hub-legend{display:flex;gap:1.2rem;flex-wrap:wrap;padding:.8rem 1.2rem;border-top:1px solid var(--rule);font-size:.78rem;color:var(--ink-2)}
+.hub-legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:.35rem;vertical-align:-1px}
+.scene-hud{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding:.9rem 1.2rem;border-top:1px solid var(--rule);font-size:.76rem;color:var(--ink-2)}
+@media (max-width:600px){.scene-hud{grid-template-columns:1fr 1fr}}
+.scene-hud b{display:block;font-size:1.15rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.scene-hud div:nth-child(3) b{color:var(--teal)}
+/* svg classes */
+.act{fill:var(--surface);stroke:var(--rule);stroke-width:1.5;transition:stroke .3s}
+.act.hot{stroke:var(--teal);stroke-width:3}
+.albl{font-size:15px;font-weight:700;fill:var(--ink)}
+.asub{font-size:12px;fill:var(--ink-2)}
+.spoke{stroke:var(--rule);stroke-width:1.3;stroke-dasharray:3 6;fill:none}
+.r-portal,.r-money{fill:none;stroke:var(--rule);stroke-width:18;transition:stroke .35s}
+.r-portal.lit{stroke:color-mix(in srgb,var(--ink) 22%,transparent)}
+.r-money.lit{stroke:var(--amber-soft)}
+.r-core{fill:var(--teal-soft);stroke:var(--teal);stroke-width:2}
+.r-core.lit{fill:var(--teal);}
+.rl{font-size:10.5px;font-weight:700;fill:var(--ink-2);letter-spacing:.02em}
+.rl.lit-p{fill:var(--ink)} .rl.lit-m{fill:var(--teal)}
+.core-t{font-size:18px;font-weight:800;fill:var(--ink)}
+.core-s{font-size:11px;font-weight:600;fill:var(--ink-2)}
+.r-core.lit ~ .core-t{fill:var(--bg)}
+.amt{font-size:13px;font-weight:800;fill:var(--teal)}
+.amt.v{fill:var(--violet)}
+.settle{font-size:12px;font-weight:800;fill:var(--bg)}
+@media (max-width:600px){.albl{font-size:22px}.asub{font-size:17px}.amt{font-size:20px}.rl{font-size:14px}.core-t{font-size:20px}.core-s{font-size:15px}.settle{font-size:17px}}
+.log{padding:1.25rem 1.3rem;display:flex;flex-direction:column;min-height:360px}
+.log h3{font-size:1.2rem;font-weight:700}
+.goal{font-family:var(--serif);font-style:italic;color:var(--ink-2);margin:.2rem 0 1rem}
+.log ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.6rem;flex:1}
+.log li{display:grid;grid-template-columns:auto 1fr;gap:.7rem;opacity:.28;transition:opacity .45s}
+.log li.in{opacity:1}
+.log li i{margin-top:.4rem;width:10px;height:10px;border-radius:50%;background:var(--rule)}
+.log li.in i{background:var(--teal)}
+.log li.in.v i{background:none;border:2px dashed var(--ink)}
+.log li p{margin:0;font-size:.9rem}
+.tag{display:inline-block;font-size:.68rem;font-weight:700;padding:.06rem .5rem;border-radius:999px;margin:.3rem .3rem 0 0;background:var(--teal-soft);color:var(--teal)}
+.tag.v{background:none;color:var(--ink-2);border:1px dashed var(--ink-2)}
+.note{font-size:.76rem;color:var(--ink-2)}
+
+/* ===== ANATOMY ===== */
+.compose{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.5rem;position:relative;min-height:230px}
+@media (max-width:760px){.compose{grid-template-columns:1fr;min-height:0}}
+.piece{border:1px solid var(--rule);background:var(--surface);border-radius:22px;padding:1.4rem;transition:transform .9s cubic-bezier(.7,0,.2,1),opacity .6s .3s}
+.piece .n{font-size:.8rem;color:var(--ink-2);font-weight:700}
+.piece h3{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;margin:.4rem 0 .5rem}
+.piece p{margin:0;color:var(--ink-2);font-size:.95rem}
+.piece .who{margin-top:.8rem;font-weight:700;font-size:.85rem;color:var(--teal)}
+.merged{position:absolute;inset:0;display:grid;place-items:center;text-align:center;border-radius:22px;border:2px solid var(--teal);background:radial-gradient(circle at 50% 50%,var(--teal-soft),var(--surface) 70%);opacity:0;transform:scale(.85);transition:all .7s .55s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+.merged h3{font-size:clamp(2rem,5vw,3.6rem);font-weight:800;letter-spacing:-0.04em}
+.merged p{margin:.4rem 0 0;color:var(--ink-2)}
+.compose.on .piece:nth-child(1){transform:translateX(calc(100% + 1rem)) scale(.9);opacity:0}
+.compose.on .piece:nth-child(2){transform:scale(.9);opacity:0}
+.compose.on .piece:nth-child(3){transform:translateX(calc(-100% - 1rem)) scale(.9);opacity:0}
+.compose.on .merged{opacity:1;transform:none}
+@media (max-width:760px){.compose.on .piece:nth-child(1),.compose.on .piece:nth-child(3){transform:scale(.9)}}
+.stack-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:2rem;margin-top:3rem;align-items:start}
+@media (max-width:860px){.stack-grid{grid-template-columns:1fr}}
+.layers{position:relative;display:flex;flex-direction:column;gap:6px}
+.layer{display:grid;grid-template-columns:1fr auto;align-items:center;gap:1rem;text-align:left;width:100%;padding:1rem 1.2rem;border:1px solid var(--rule);border-radius:14px;background:var(--surface);cursor:pointer;position:relative;overflow:hidden}
+.layer b{font-size:1rem}
+.layer span{font-size:.8rem;color:var(--ink-2);font-weight:600}
+.layer[aria-pressed="true"]{border-color:var(--teal);box-shadow:inset 4px 0 0 var(--teal)}
+.layer.ledger{background:var(--teal-soft);border-color:var(--teal)}
+.beam{position:absolute;left:12px;top:0;width:3px;height:100%;pointer-events:none}
+.beam i{position:absolute;left:-4px;width:11px;height:11px;border-radius:50%;background:var(--teal);box-shadow:0 0 calc(14px*var(--glow)) var(--teal);animation:drop 2.4s cubic-bezier(.6,0,.4,1) infinite}
+.beam i:nth-child(2){animation-delay:.8s}.beam i:nth-child(3){animation-delay:1.6s}
+@keyframes drop{0%{top:0;opacity:0}10%{opacity:1}90%{opacity:1}100%{top:calc(100% - 12px);opacity:0}}
+.ldet h3{font-size:1.6rem;font-weight:700}
+.ldet .who{color:var(--teal);font-weight:700;margin:.3rem 0 .8rem;font-size:.9rem}
+.ldet p{margin:.5rem 0;color:var(--ink-2);max-width:46ch}
+.api{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-top:3rem}
+@media (max-width:760px){.api{grid-template-columns:1fr 1fr}}
+.mod{border:1px solid var(--rule);background:var(--surface);border-radius:16px;padding:1rem;position:relative}
+.mod b{display:block;font-size:1.05rem}
+.mod p{margin:.3rem 0 0;font-size:.84rem;color:var(--ink-2)}
+.mod::after{content:"";position:absolute;left:50%;bottom:-.8rem;width:2px;height:.8rem;background:var(--teal)}
+@media (max-width:760px){.mod::after{display:none}}
+.onebal{margin-top:.8rem;border-radius:16px;padding:1rem 1.2rem;background:var(--teal);color:var(--bg);font-weight:800;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+.onebal span{font-weight:600;font-size:.85rem;opacity:.85}
+.partners{margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;font-size:.85rem;color:var(--ink-2)}
+.partners b{color:var(--ink);font-size:1rem}
+
+/* ===== DAY ===== */
+.day{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(1.5rem,4vw,3.5rem);align-items:center;margin-top:2.5rem}
+@media (max-width:860px){.day{grid-template-columns:1fr}}
+.dial{width:min(100%,460px);margin:0 auto;touch-action:none;user-select:none}
+.dial svg{display:block;width:100%;height:auto}
+.dial .face{fill:var(--surface);stroke:var(--rule)}
+.dial .night{fill:var(--violet-soft)}
+.dial .tk{stroke:var(--rule);stroke-width:1.5}
+.dial .hr{font-size:12px;fill:var(--ink-2);font-weight:600}
+.dial .ev{fill:var(--bg);stroke:var(--ink-2);stroke-width:2;cursor:pointer}
+.dial .ev.done{fill:var(--teal);stroke:var(--teal)}
+.dial .ev.cur{fill:var(--teal);stroke:var(--teal);r:9}
+.dial .arc{fill:none;stroke:var(--teal);stroke-width:6;stroke-linecap:round}
+.dial .hand{fill:var(--ink);cursor:grab}
+.dial .clk{font-size:44px;font-weight:800;fill:var(--ink);letter-spacing:-2px}
+.dial .clk2{font-size:13px;fill:var(--ink-2);font-weight:600}
+.evcard{min-height:250px}
+.evcard .when{font-size:.85rem;font-weight:700;color:var(--teal)}
+.evcard h3{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:700;margin:.3rem 0 .6rem}
+.evcard p{margin:.4rem 0;color:var(--ink-2);max-width:46ch}
+.tot{display:flex;gap:2rem;flex-wrap:wrap;margin:1.4rem 0 1rem;padding-top:1rem;border-top:1px solid var(--rule)}
+.tot b{display:block;font-size:1.5rem;font-weight:700;font-variant-numeric:tabular-nums}
+.tot span{font-size:.78rem;color:var(--ink-2)}
+
+/* ===== FUTURES / FIN ===== */
+.futures{margin-top:2.5rem;display:grid;gap:1rem}
+.future{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);border:1px solid var(--rule);border-radius:22px;overflow:hidden;background:var(--surface)}
+@media (max-width:760px){.future{grid-template-columns:1fr}}
+.js .future{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s cubic-bezier(.2,.8,.2,1)}
+.js .future.in{opacity:1;transform:none}
+.future .now{padding:1.5rem;background:var(--bg-2)}
+.future .then{padding:1.5rem}
+.future .lbl{font-size:.78rem;color:var(--ink-2);font-weight:700;margin-bottom:.5rem;display:block}
+.future .then .lbl{color:var(--teal)}
+.future p{margin:0}
+.future .then p{font-size:clamp(1.12rem,2.1vw,1.4rem);font-weight:300;line-height:1.35}
+.finale{text-align:center}
+.finale h2{margin:0 auto;max-width:18ch;font-size:clamp(2.2rem,6vw,4.4rem)}
+.finale .sub{margin-left:auto;margin-right:auto}
+.golinks{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:2.2rem}
+.golinks .pill{text-decoration:none;padding:.9rem 1.3rem;color:var(--ink)}
+footer{border-top:1px solid var(--rule);padding:2.5rem 0 3.5rem;font-size:.8rem;color:var(--ink-2)}
+footer p{max-width:88ch}
+.tools{position:fixed;right:1rem;bottom:calc(env(safe-area-inset-bottom,0px) + 1rem);z-index:25}
+
+/* ===== INTRO SUPERNOVA ===== */
+html.intro-on,html.intro-on body{overflow:hidden}
+#intro{position:fixed;inset:0;z-index:100;background:#02060C;color:#E6F2F5;display:grid;place-items:center;transition:opacity .9s ease;cursor:pointer}
+#intro.out{opacity:0;pointer-events:none}
+#introCv{position:absolute;inset:0;width:100%;height:100%}
+.intro-ui{position:relative;text-align:center;padding:0 1.5rem;margin-top:44vh;transition:opacity .3s}
+#intro.boom .intro-ui{opacity:0}
+.intro-ui .tag1{font-family:var(--serif);font-style:italic;color:#8FA3B6;font-size:clamp(1rem,2vw,1.2rem);margin:0 0 1.2rem}
+#ignite{font-family:var(--display);font-weight:700;font-size:1.05rem;padding:1rem 1.8rem;border-radius:999px;border:1.5px solid #23F7DD;background:rgba(35,247,221,.1);color:#23F7DD;cursor:pointer;box-shadow:0 0 40px rgba(35,247,221,.25);transition:background .2s}
+#ignite:hover{background:rgba(35,247,221,.2)}
+#ignite[disabled]{opacity:.45;cursor:wait}
+.loadbar{width:180px;height:2px;background:#1C2C40;margin:1.4rem auto 0;border-radius:2px;overflow:hidden}
+.loadbar i{display:block;height:100%;width:0;background:#23F7DD;transition:width .25s}
+.intro-meta{margin-top:.8rem;font-size:.75rem;color:#8FA3B6;font-variant-numeric:tabular-nums}
+#skip{position:absolute;right:1.2rem;top:calc(env(safe-area-inset-top,0px) + 1rem);background:none;border:1px solid #1C2C40;color:#8FA3B6;border-radius:999px;padding:.4rem .9rem;font-size:.8rem;cursor:pointer;z-index:2}
+
+/* ===== TOKENOMICS ===== */
+.tk-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.1rem;margin-top:2.5rem}
+@media (max-width:900px){.tk-grid{grid-template-columns:1fr}}
+.tk-card{padding:1.4rem}
+.tk-card h3{font-size:1.2rem;font-weight:700}
+.tk-card>p{color:var(--ink-2);font-size:.92rem;margin:.35rem 0 1rem}
+.tk-controls{display:flex;gap:1.2rem;flex-wrap:wrap;align-items:center;margin-top:2rem;padding:1rem 1.2rem;border:1px solid var(--rule);border-radius:18px;background:var(--surface)}
+.tk-controls label{font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+.tk-controls input[type=range]{accent-color:var(--teal);width:170px}
+.tk-controls output{font-variant-numeric:tabular-nums;color:var(--teal);min-width:5ch;display:inline-block}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:999px;overflow:hidden}
+.seg button{border:0;background:none;padding:.45rem .9rem;font-size:.82rem;font-weight:700;cursor:pointer;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--teal);color:var(--bg)}
+.donut-wrap{display:grid;grid-template-columns:200px 1fr;gap:1.2rem;align-items:center}
+@media (max-width:500px){.donut-wrap{grid-template-columns:1fr;justify-items:center}}
+.donut-wrap svg{width:200px;height:200px}
+.dn-big{font-size:28px;font-weight:800;fill:var(--ink);font-variant-numeric:tabular-nums}
+.dn-sm{font-size:11px;font-weight:600;fill:var(--ink-2)}
+.legend{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55rem;font-size:.86rem}
+.legend li{display:grid;grid-template-columns:12px 1fr auto;gap:.6rem;align-items:start}
+.legend i{width:12px;height:12px;border-radius:3px;margin-top:.25rem}
+.legend b{font-variant-numeric:tabular-nums}
+.legend small{display:block;color:var(--ink-2);font-size:.76rem}
+.legend .locked{opacity:.45}
+.feebar{display:flex;height:46px;border-radius:12px;overflow:hidden;margin:.6rem 0 .5rem;font-size:.82rem;font-weight:700}
+.feebar div{display:flex;align-items:center;justify-content:center;transition:flex-basis .6s cubic-bezier(.2,.8,.2,1);white-space:nowrap;overflow:hidden}
+.fb-b{background:var(--teal-soft);color:var(--teal)}
+.fb-x{background:var(--amber);color:var(--bg)}
+.feebar{height:22px!important}
+.feelbl{display:flex;justify-content:space-between;font-size:.85rem;font-weight:700;margin-bottom:.4rem}
+.feelbl span:first-child{color:var(--teal)}
+.sim-grid>*{min-width:0}
+.rules{display:grid;gap:.5rem;margin-top:1rem;font-size:.86rem}
+.rules div{display:flex;justify-content:space-between;gap:1rem;padding:.55rem .8rem;border-radius:10px;background:var(--bg-2)}
+.rules b{white-space:nowrap}
+.rules .burn{color:var(--amber)}
+.sim{margin-top:1.1rem;padding:1.4rem}
+.sim-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:1.5rem;align-items:center}
+@media (max-width:900px){.sim-grid{grid-template-columns:1fr}}
+.sim label{display:block;font-weight:700;font-size:.9rem;margin-top:1rem}
+.sim label:first-child{margin-top:0}
+.sim input[type=range]{width:100%;accent-color:var(--teal)}
+.sim .val{float:right;color:var(--teal);font-variant-numeric:tabular-nums}
+.presets{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem}
+.presets .pill{padding:.3rem .7rem;font-size:.75rem}
+.verdict-big{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-0.03em;font-variant-numeric:tabular-nums;margin:.2rem 0}
+.verdict-big.inf{color:var(--amber)} .verdict-big.def{color:var(--teal)}
+.flows{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:1rem 0}
+.flows div{border-radius:14px;padding:.8rem 1rem;background:var(--bg-2)}
+.flows b{display:block;font-size:1.25rem;font-variant-numeric:tabular-nums}
+.flows span{font-size:.76rem;color:var(--ink-2)}
+#balCv{display:block;width:100%;height:190px}
+.be{font-size:.92rem;color:var(--ink-2)}
+.be b{color:var(--ink)}
+.caveat{margin-top:1.2rem;font-size:.8rem;color:var(--ink-2);max-width:90ch}
+/* ===== BASES ===== */
+.basics{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-top:2.4rem}
+@media (max-width:980px){.basics{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.basics{grid-template-columns:1fr}}
+.basic{border:1px solid var(--rule);background:var(--surface);border-radius:20px;padding:1.3rem;position:relative;overflow:hidden}
+.basic .em{font-size:2rem;line-height:1;display:inline-block;animation:bob 3s ease-in-out infinite}
+.basic:nth-child(2) .em{animation-delay:.4s}.basic:nth-child(3) .em{animation-delay:.8s}.basic:nth-child(4) .em{animation-delay:1.2s}
+@keyframes bob{50%{transform:translateY(-5px)}}
+.basic h3{font-size:1.1rem;font-weight:700;margin:.7rem 0 .4rem}
+.basic p{margin:0;color:var(--ink-2);font-size:.9rem}
+.basic .mini{height:44px;margin-top:1rem;position:relative}
+.lanes3{display:flex;flex-direction:column;gap:6px;justify-content:center}
+.lanes3 i{display:block;height:6px;border-radius:3px;background:var(--bg-2);position:relative;overflow:hidden}
+.lanes3 i::after{content:"";position:absolute;top:0;left:-20%;width:18%;height:100%;border-radius:3px;background:var(--teal);animation:run 1.8s linear infinite}
+.lanes3 i:nth-child(2)::after{animation-delay:.6s}.lanes3 i:nth-child(3)::after{animation-delay:1.2s}
+@keyframes run{to{left:110%}}
+.mledger{display:flex;gap:4px;align-items:flex-end}
+.mledger b{flex:1;height:30px;border-radius:4px;border:1.5px solid var(--teal);opacity:.25;animation:blk 2.4s steps(1) infinite}
+.mledger b:nth-child(2){animation-delay:.6s}.ledger b:nth-child(3){animation-delay:1.2s}.ledger b:nth-child(4){animation-delay:1.8s}
+@keyframes blk{0%{opacity:1;background:var(--teal-soft)}25%{opacity:.25;background:none}}
+.fuel{display:flex;align-items:center;gap:.6rem;font-size:.8rem;font-weight:700;color:var(--ink-2)}
+.fuel span{flex:1;height:10px;border-radius:5px;background:var(--bg-2);overflow:hidden}
+.fuel span::after{content:"";display:block;height:100%;width:60%;background:var(--teal);animation:fl 3s ease-in-out infinite alternate}
+@keyframes fl{from{width:25%}to{width:85%}}
+.gloss-h{margin-top:3rem;font-size:1.3rem;font-weight:700}
+.gloss{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.7rem;margin-top:1rem}
+.gc{perspective:800px;height:160px;border:0;background:none;padding:0;cursor:pointer;text-align:left}
+.gc .in{position:relative;width:100%;height:100%;transition:transform .6s cubic-bezier(.3,.8,.3,1);transform-style:preserve-3d;display:block}
+.gc.flip .in{transform:rotateY(180deg)}
+.gc .f,.gc .b{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;border:1px solid var(--rule);padding:1rem;display:flex;flex-direction:column}
+.gc .f{background:var(--surface);justify-content:space-between}
+.gc .f b{font-size:1.15rem}
+.gc .f small{color:var(--teal);font-weight:700;font-size:.75rem}
+.gc .b{background:var(--teal);color:#05080B;transform:rotateY(180deg);font-size:.84rem;font-weight:600;line-height:1.4;justify-content:center;border-color:var(--teal)}
+/* ===== TELEMETRIE ===== */
+.telem{margin-top:1.25rem;padding:1.4rem}
+.telem-top{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap}
+.telem-top h3{font-size:1.15rem;font-weight:700}
+.live{display:inline-flex;align-items:center;gap:.45rem;font-size:.75rem;font-weight:700;color:var(--teal)}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.25}}
+.rwrap{position:relative;margin:2rem 0 0}
+.rtrack{position:relative;height:56px;border-radius:10px;background:var(--bg-2);display:flex;overflow:hidden}
+.rtrack .sg{height:100%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;white-space:nowrap;overflow:hidden;opacity:.3;transition:opacity .12s}
+.rtrack .sg.on{opacity:1}
+.sg.p{background:color-mix(in srgb,var(--teal) 30%,var(--surface));color:var(--ink)}
+.sg.q{background:color-mix(in srgb,var(--teal) 55%,var(--surface));color:var(--ink)}
+.sg.c{background:var(--teal);color:#05080B}
+.sg.buf{background:none;color:var(--ink-2)}
+.rcur{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--ink);left:0;z-index:2}
+.rmark{position:absolute;top:0;height:56px;border-left:1.5px dashed var(--ink-2);z-index:1}
+.rmark span{position:absolute;top:-19px;left:4px;font-size:.66rem;color:var(--ink-2);white-space:nowrap}
+.rleg{display:flex;gap:1.1rem;flex-wrap:wrap;margin-top:.7rem;font-size:.76rem;color:var(--ink-2)}
+.rleg i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:.35rem;vertical-align:-1px}
+.rleg .lp{background:color-mix(in srgb,var(--teal) 30%,var(--surface))}.rleg .lq{background:color-mix(in srgb,var(--teal) 55%,var(--surface))}.rleg .lc{background:var(--teal)}.rleg .lb{border:1px solid var(--ink-2)}
+.rscale{display:flex;justify-content:space-between;font-size:.7rem;color:var(--ink-2);margin-top:.4rem}
+.rstats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.1rem}
+@media (max-width:640px){.rstats{grid-template-columns:1fr 1fr}.rmark span{display:none}.rtrack .sg{font-size:0}.qscore{padding:.5rem .9rem;font-size:.85rem}}
+.rstats b{display:block;font-size:1.3rem;font-variant-numeric:tabular-nums}
+.rstats div:nth-child(2) b{color:var(--teal)}
+.rstats span{font-size:.74rem;color:var(--ink-2)}
+.rhist{display:flex;gap:4px;align-items:flex-end;height:46px;margin-top:1rem;border-bottom:1px solid var(--rule)}
+.rhist i{flex:1;background:var(--teal);border-radius:3px 3px 0 0;opacity:.75;transition:height .3s}
+/* ===== QUIZ + REALITE ===== */
+.quiz{display:grid;gap:1rem;margin-top:2.2rem}
+.qc{border:1px solid var(--rule);background:var(--surface);border-radius:20px;padding:1.3rem}
+.qc h3{font-size:1.1rem;font-weight:700;margin-bottom:.8rem}
+.qc h3 span{color:var(--teal);margin-right:.4rem}
+.qo{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem}
+@media (max-width:560px){.qo{grid-template-columns:1fr}}
+.qo button{text-align:left;border:1px solid var(--rule);background:var(--bg-2);border-radius:12px;padding:.75rem .9rem;font-size:.92rem;font-weight:600;cursor:pointer;transition:transform .15s}
+.qo button:hover:not([disabled]){transform:translateY(-2px);border-color:var(--teal)}
+.qo button.ok{background:var(--teal);color:#05080B;border-color:var(--teal)}
+.qo button.ko{border:1px dashed var(--ink-2);opacity:.55;text-decoration:line-through}
+.qo button[disabled]{cursor:default}
+.qx{margin:.8rem 0 0;font-size:.9rem;color:var(--ink-2);display:none}
+.qc.done .qx{display:block}
+.qx b{color:var(--ink)}
+.qscore{position:sticky;bottom:calc(env(safe-area-inset-bottom,0px) + 1rem);margin-top:1rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;border:1px solid var(--teal);background:var(--surface);border-radius:22px;padding:.7rem 1.2rem;font-weight:700;z-index:3}
+.qscore b{color:var(--teal);font-size:1.2rem}
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:40}
+.reality{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin:2.5rem auto 0;max-width:980px;text-align:left}
+@media (max-width:820px){.reality{grid-template-columns:1fr}}
+.reality div{border:1px dashed var(--ink-2);border-radius:18px;padding:1.1rem}
+.reality b{display:block;font-size:1.5rem;color:var(--ink)}
+.reality p{margin:.3rem 0 0;font-size:.86rem;color:var(--ink-2)}
+@media (prefers-reduced-motion: reduce){.basic .em,.lanes3 i::after,.ledger b,.fuel span::after,.live i{animation:none!important}.gc .in{transition:none}}
+.beat{border-top:1px solid var(--rule);padding:1.1rem 1.4rem}
+.beat-top{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;font-size:.85rem;font-weight:700;color:var(--ink-2)}
+.beat-line{margin:.9rem 0 0;font-size:clamp(.95rem,1.8vw,1.1rem);font-weight:600;font-variant-numeric:tabular-nums;min-height:1.6em}
+.beat-line b{color:var(--teal)}
+.beat-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem}
+@media (max-width:700px){.beat-stats{grid-template-columns:1fr}}
+.beat-stats b{display:block;font-size:1.25rem;font-variant-numeric:tabular-nums}
+.beat-stats span{font-size:.76rem;color:var(--ink-2)}
+.lane .t{font-size:.8rem!important;white-space:nowrap}
+.race .lane{grid-template-columns:170px 1fr 120px}
+@media (max-width:600px){.race .lane{grid-template-columns:1fr auto}}
+.r-portal,.r-money{fill:none;stroke:var(--rule);stroke-width:18;transition:stroke .3s}
+.r-portal.lit{stroke:color-mix(in srgb,var(--ink) 75%,transparent)}
+.r-money.lit{stroke:color-mix(in srgb,var(--teal) 60%,transparent)}
+.r-core{fill:var(--teal-soft);stroke:var(--teal);stroke-width:2;transition:fill .3s}
+.r-core.lit{fill:var(--teal)}
+.rl{font-size:11px;font-weight:800;fill:var(--ink-2);letter-spacing:.02em;transition:fill .3s}
+.rl.lit{fill:var(--bg)}
+.core-t,.core-s{transition:fill .3s}
+.core-t.lit,.core-s.lit{fill:#05080B}
+.hubcap{font-size:14px;font-weight:700;fill:var(--ink-2)}
+.hubcap.lit{fill:var(--teal)}
+@media (max-width:600px){.hubcap{font-size:20px}}
+.hub-legend span{opacity:.45;transition:opacity .3s}
+.hub-legend span.on{opacity:1;font-weight:700;color:var(--ink)}
+.log li.now p{font-weight:700}
+.tag.via{background:var(--ink);color:var(--bg)}
+.pricebar{display:flex;gap:2rem;flex-wrap:wrap;align-items:center;margin-top:2rem;padding:1rem 1.2rem;border:1px solid var(--teal);border-radius:18px;background:var(--surface)}
+.pricebar b{display:block;font-size:1.5rem;color:var(--teal);font-variant-numeric:tabular-nums}
+.pricebar span{font-size:.78rem;color:var(--ink-2)}
+.pricebar p{flex:1 1 260px;margin:0;font-size:.76rem;color:var(--ink-2)}
+.tk-controls{display:grid!important;grid-template-columns:1fr 1fr;gap:1.4rem!important;align-items:start!important}
+@media (max-width:800px){.tk-controls{grid-template-columns:1fr}}
+.ctl label,.ctl .lbl{display:block;font-weight:700;font-size:.95rem;margin-bottom:.5rem}
+.ctl input[type=range]{width:100%!important}
+.ctl output{display:block;font-weight:700;color:var(--teal);font-size:.9rem;margin-top:.2rem}
+.ctl small{display:block;margin-top:.5rem;font-size:.78rem;color:var(--ink-2);line-height:1.45}
+.ends2{display:flex;justify-content:space-between;font-size:.72rem;color:var(--ink-2);font-weight:600}
+.expl{font-size:.78rem;color:var(--ink-2);margin:.4rem 0 0}
+.flows small{display:block;font-size:.74rem;color:var(--ink-2);margin-top:.15rem}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .beam i,.fi{animation:none!important}
+  .js .future{opacity:1;transform:none;transition:none}
+  .piece,.merged{transition:none}
+}
+/* ===== V8 ===== */
+/* hero sobre */
+.hero2{position:relative;min-height:min(100svh,880px);display:flex;align-items:center;padding:clamp(4rem,9vw,6rem) 0 clamp(3rem,7vw,5rem);overflow:hidden}
+#core{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero2 .veil2{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 55%,var(--bg) 100%)}
+.hero2 .wrap{position:relative}
+.hero2 h1{text-shadow:0 2px 30px color-mix(in srgb,var(--bg) 70%,transparent)}
+.hero2 h1{font-size:clamp(2.4rem,6vw,5.2rem);font-weight:800;max-width:14ch;letter-spacing:-0.045em}
+.hero2 .kicker{max-width:48ch}
+.hero-meta{display:flex;gap:1.6rem;flex-wrap:wrap;margin-top:1.6rem;align-items:center}
+.hero-meta .live{font-size:.82rem}
+.beat-stats{grid-template-columns:repeat(2,1fr)!important}
+@media (max-width:700px){.beat-stats{grid-template-columns:1fr!important}}
+/* outils */
+.tools{display:flex;gap:.4rem}
+/* icônes */
+.ico{width:34px;height:34px;display:block;color:var(--teal)}
+.ico *{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.basic .ico{margin-bottom:.2rem}
+/* mini chaîne de blocs */
+.chainmini{display:flex;gap:6px;align-items:center;overflow:hidden;height:30px}
+.chainmini{justify-content:flex-end}
+.chainmini b{flex:0 0 26px;height:22px;border-radius:5px;border:1.5px solid var(--teal);background:var(--teal-soft);animation:step600 .6s cubic-bezier(.3,.8,.3,1) infinite}
+.chainmini b:last-child{animation:step600 .6s cubic-bezier(.3,.8,.3,1) infinite,born .6s ease-out infinite}
+@keyframes step600{from{transform:translateX(32px)}to{transform:translateX(0)}}
+@keyframes born{0%{background:var(--teal);box-shadow:0 0 12px var(--teal)}100%{background:var(--teal-soft);box-shadow:none}}
+/* cartes d'usage sans emoji */
+.uc .num{font-size:.78rem;font-weight:800;color:var(--teal);letter-spacing:.04em}
+/* scène en couches */
+.stack-svg{display:block;width:100%;height:auto}
+.lane-r{fill:var(--bg-2);stroke:var(--rule);stroke-width:1.5;transition:fill .3s,stroke .3s}
+.lane-r.lit{stroke:var(--teal);stroke-width:2.5}
+.lane-r.lit.p{fill:color-mix(in srgb,var(--ink) 12%,var(--surface))}
+.lane-r.lit.m{fill:color-mix(in srgb,var(--teal) 16%,var(--surface))}
+.lane-r.lit.c{fill:color-mix(in srgb,var(--teal) 28%,var(--surface))}
+.lane-t{font-size:15px;font-weight:800;fill:var(--ink)}
+.lane-s{font-size:11px;fill:var(--ink-2)}
+.lane-cap{font-size:12.5px;font-weight:700;fill:var(--teal)}
+.fc-frame{fill:none;stroke:var(--ink-2);stroke-width:1.2;stroke-dasharray:4 6}
+.fc-t{font-size:12px;font-weight:800;fill:var(--ink-2);letter-spacing:.06em}
+.blk{fill:var(--teal);opacity:.55}
+.act{fill:var(--surface);stroke:var(--rule);stroke-width:1.5;transition:stroke .3s}
+.act.hot{stroke:var(--teal);stroke-width:3}
+.albl{font-size:14px;font-weight:700;fill:var(--ink)}
+.asub{font-size:11px;fill:var(--ink-2)}
+.amt{font-size:13px;font-weight:800;fill:var(--ink)}
+@media (max-width:600px){.blk{display:none}}
+@media (max-width:600px){.lane-t{font-size:20px}.lane-s{font-size:15px}.lane-cap{font-size:16px}.albl{font-size:19px}.asub{font-size:15px}.amt{font-size:18px}.fc-t{font-size:15px}}
+/* couches du Finance Computer : sans faisceau, impulsion descendante */
+.layer[aria-pressed="true"]{border-color:var(--teal);box-shadow:none}
+.layer.pulse{background:color-mix(in srgb,var(--teal) 14%,var(--surface))}
+.layer{transition:background .25s}
+/* jeu d'adoption dans le chapitre 3 */
+.adopt-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,1fr);gap:1.1rem;margin-top:2rem;align-items:stretch}
+@media (max-width:900px){.adopt-grid{grid-template-columns:1fr}}
+.netbox{position:relative;min-height:440px}
+@media (max-width:600px){.netbox{min-height:340px}}
+#net2{position:absolute;inset:0;width:100%;height:100%;display:block}
+.nethud{position:absolute;left:1rem;top:.9rem;right:1rem;display:flex;gap:1.4rem;flex-wrap:wrap;pointer-events:none}
+.nethud b{display:block;font-size:1.35rem;font-weight:800;color:var(--teal);font-variant-numeric:tabular-nums}
+.nethud span{font-size:.72rem;color:var(--ink-2)}
+.game{background:var(--surface);border:1px solid var(--rule);border-radius:22px;padding:1.1rem 1.2rem;backdrop-filter:none}
+.adopt-h{margin-top:4.5rem;font-size:clamp(1.5rem,3vw,2.1rem);font-weight:700;max-width:24ch}
+.toast{position:fixed}
+/* prix simulé */
+.whatif{margin-top:1.1rem;padding:1.4rem}
+.whatif .big{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;color:var(--teal);font-variant-numeric:tabular-nums;letter-spacing:-0.03em}
+.whatif-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.5rem;align-items:center;margin-top:1rem}
+@media (max-width:800px){.whatif-grid{grid-template-columns:1fr}}
+.whatif input{width:100%;accent-color:var(--teal)}
+.warn{margin-top:1rem;padding:.8rem 1rem;border:1px dashed var(--ink-2);border-radius:12px;font-size:.8rem;color:var(--ink-2)}
+</style>
+</head>
+<body>
+<div id="intro" role="dialog" aria-modal="true">
+  <canvas id="introCv" aria-hidden="true"></canvas>
+  <button id="skip" type="button" data-i="skip"></button>
+  <div class="intro-ui">
+    <p class="tag1" data-i="introTag"></p>
+    <button id="ignite" type="button" disabled data-i="ignite"></button>
+    <div class="loadbar"><i id="loadI"></i></div>
+    <p class="intro-meta" id="loadT"></p>
+  </div>
+</div>
+<div id="prog"></div>
+<nav class="rail" id="rail">
+  <a href="#top"><i></i><span data-i="r0"></span></a>
+  <a href="#bases"><i></i><span data-i="r1"></span></a>
+  <a href="#tempo"><i></i><span data-i="r3"></span></a>
+  <a href="#usages"><i></i><span data-i="r4"></span></a>
+  <a href="#machine"><i></i><span data-i="r5"></span></a>
+  <a href="#egld"><i></i><span data-i="r6"></span></a>
+  <a href="#demain"><i></i><span data-i="r7"></span></a>
+  <a href="#horloge"><i></i><span data-i="r2"></span></a>
+</nav>
+
+<header class="hero2" id="top">
+  <canvas id="core" aria-hidden="true"></canvas>
+  <div class="veil2"></div>
+  <div class="wrap">
+    <p class="kicker" data-i="heroKicker"></p>
+    <h1 data-i="heroTitle"></h1>
+    <p class="sub" data-i="heroSub"></p>
+    <div class="hero-meta"><a class="cta" href="#bases" data-i="heroCta"></a><span class="live"><i></i><span data-i="heroLive"></span></span></div>
+  </div>
+</header>
+
+<main>
+<section id="bases">
+  <div class="wrap">
+    <p class="kicker" data-i="basesK"></p>
+    <h2 data-i="basesT"></h2>
+    <p class="sub" data-i="basesS"></p>
+    <div class="basics">
+      <div class="basic"><svg class="ico" viewBox="0 0 32 32"><rect x="6" y="5" width="20" height="22" rx="2"/><path d="M11 11h10M11 16h10M11 21h6"/></svg><h3 data-i="b1t"></h3><p data-i="b1p"></p><div class="mini chainmini" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div></div>
+      <div class="basic"><svg class="ico" viewBox="0 0 32 32"><path d="M4 9h24M4 16h24M4 23h24"/><circle cx="12" cy="9" r="2"/><circle cx="20" cy="16" r="2"/><circle cx="9" cy="23" r="2"/></svg><h3 data-i="b2t"></h3><p data-i="b2p"></p><div class="mini lanes3" aria-hidden="true"><i></i><i></i><i></i></div></div>
+      <div class="basic"><svg class="ico" viewBox="0 0 32 32"><path d="M16 4c5 7 8 11 8 15a8 8 0 0 1-16 0c0-4 3-8 8-15z"/></svg><h3 data-i="b3t"></h3><p data-i="b3p"></p><div class="mini fuel" aria-hidden="true">EGLD <span></span></div></div>
+      <div class="basic"><svg class="ico" viewBox="0 0 32 32"><rect x="7" y="9" width="18" height="15" rx="3"/><path d="M16 4v5M12 16h.01M20 16h.01M12 20h8"/></svg><h3 data-i="b4t"></h3><p data-i="b4p"></p><div class="mini lanes3" aria-hidden="true"><i></i></div></div>
+    </div>
+    <h3 class="gloss-h"><span data-i="glossT"></span> <span class="note" style="font-weight:400" data-i="glossS"></span></h3>
+    <div class="gloss" id="gloss"></div>
+  </div>
+</section>
+
+<section id="tempo">
+  <div class="wrap">
+    <p class="kicker" data-i="ch1"></p>
+    <h2 data-i="tempoT"></h2>
+    <p class="sub" data-i="tempoS"></p>
+    <div class="box" style="margin-top:2.5rem">
+      <canvas id="ekg" aria-hidden="true"></canvas>
+      <div class="bar"><div class="reads">
+        <div><b>600 ms</b><span data-i="rd1"></span></div>
+        <div><b>100–250 ms</b><span data-i="rd2"></span></div>
+        <div><b id="rd3v"></b><span data-i="rd3"></span></div>
+        <div><b id="rd4v"></b><span data-i="rd4"></span></div>
+      </div></div>
+      <div class="beat">
+        <div class="beat-top"><span data-i="bRateL"></span>
+          <span class="seg" id="bRate"><button type="button" data-r="10" aria-pressed="false">10</button><button type="button" data-r="1000" aria-pressed="true">1 000</button><button type="button" data-r="10000" aria-pressed="false">10 000</button><button type="button" data-r="100000" aria-pressed="false">100 000</button></span><span data-i="txs"></span></div>
+        <p class="beat-line" id="beatLine">…</p>
+        <div class="beat-stats">
+          <div><b id="bOne"></b><span data-i="bOneL"></span></div>
+          <div><b id="bDay"></b><span data-i="bDayL"></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="box race">
+      <h3 data-i="raceT"></h3>
+      <p data-i="raceP"></p>
+      <div class="lane f"><span class="nm">MultiversX<small data-i="ln3"></small></span><div class="track"><div class="fill" id="r3"></div></div><span class="t" id="t3">0</span></div>
+      <div class="lane"><span class="nm"><span data-i="ln2t"></span><small data-i="ln2"></small></span><div class="track"><div class="fill" id="r2"></div></div><span class="t" id="t2">0</span></div>
+      <div class="lane"><span class="nm"><span data-i="ln1t"></span><small data-i="ln1"></small></span><div class="track"><div class="fill" id="r1"></div></div><span class="t" id="t1">0</span></div>
+      <div class="lane"><span class="nm"><span data-i="ln0t"></span><small data-i="ln0"></small></span><div class="track"><div class="fill" id="r0"></div></div><span class="t" id="t0">0</span></div>
+      <p class="verdict" id="verdict" style="margin:.8rem 0 0"></p>
+    </div>
+    <div class="box telem">
+      <div class="telem-top"><h3 data-i="telT"></h3><span class="live"><i></i><span data-i="telLive"></span></span></div>
+      <p class="note" style="margin:.4rem 0 0" data-i="telP"></p>
+      <div class="rwrap">
+        <div class="rtrack" aria-hidden="true"><div class="sg p" id="sgP" data-i="sgP"></div><div class="sg q" id="sgQ" data-i="sgQ"></div><div class="sg c" id="sgC"></div><div class="sg buf" id="sgB" data-i="sgB"></div></div>
+        <div class="rmark" style="left:33.33%"><span data-i="mk200"></span></div><div class="rmark" style="left:66.66%"><span data-i="mk400"></span></div>
+        <div class="rcur" id="rcur"></div>
+      </div>
+      <div class="rscale"><span>0 ms</span><span>200</span><span>400</span><span>600 ms</span></div>
+      <div class="rleg"><span><i class="lp"></i><span data-i="lgP"></span></span><span><i class="lq"></i><span data-i="lgQ"></span></span><span><i class="lc"></i><span data-i="lgC"></span></span><span><i class="lb"></i><span data-i="lgB"></span></span></div>
+      <div class="rstats">
+        <div><b id="rN">#0</b><span data-i="stN"></span></div>
+        <div><b id="rF">0 ms</b><span data-i="stF"></span></div>
+        <div><b id="rA">0 ms</b><span data-i="stA"></span></div>
+        <div><b id="rM">0 ms</b><span data-i="stM"></span></div>
+      </div>
+      <div class="rhist" id="rhist" aria-hidden="true"></div>
+      <p class="note" style="margin-top:.7rem" data-i="telFoot"></p>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="usages">
+  <div class="wrap">
+    <p class="kicker" data-i="ch2"></p>
+    <h2 data-i="ucT"></h2>
+    <p class="sub" data-i="ucS"></p>
+    <div class="os" id="osTabs">
+      <button class="osb" data-os="MachineOS" aria-pressed="true"><b>MachineOS</b><span data-i="os1"></span></button>
+      <button class="osb" data-os="BrandOS" aria-pressed="false"><b>BrandOS</b><span data-i="os2"></span></button>
+      <button class="osb" data-os="MarketOS" aria-pressed="false"><b>MarketOS</b><span data-i="os3"></span></button>
+    </div>
+    <div class="cards" id="cards"></div>
+    <div class="theatre" id="theatre">
+      <div class="box scene">
+        <svg id="stage" class="stack-svg" viewBox="0 0 700 416" role="img"></svg>
+        <div class="scene-hud">
+          <div><b id="sP">0</b><span data-i="h1"></span></div>
+          <div><b id="sV">0</b><span data-i="h2"></span></div>
+          <div><b id="sT">0</b><span data-i="h3"></span></div>
+          <div><b id="sO">0</b><span data-i="h4"></span></div>
+        </div>
+      </div>
+      <div class="box log" aria-live="polite">
+        <h3 id="lT"></h3>
+        <p class="goal" id="lG"></p>
+        <ol id="lS"></ol>
+        <div class="logbar"><button class="pill" id="replay" type="button" data-i="replay"></button><span class="note" data-i="illus"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="machine">
+  <div class="wrap">
+    <p class="kicker" data-i="ch3"></p>
+    <h2 data-i="fcT"></h2>
+    <p class="sub" data-i="fcS"></p>
+    <div class="compose" id="compose">
+      <div class="piece"><span class="n" data-i="pc1n"></span><h3 data-i="pc1t"></h3><p data-i="pc1p"></p><div class="who" data-i="pc1w"></div></div>
+      <div class="piece"><span class="n" data-i="pc2n"></span><h3 data-i="pc2t"></h3><p data-i="pc2p"></p><div class="who" data-i="pc2w"></div></div>
+      <div class="piece"><span class="n" data-i="pc3n"></span><h3 data-i="pc3t"></h3><p data-i="pc3p"></p><div class="who" data-i="pc3w"></div></div>
+      <div class="merged"><div><h3>The Finance Computer.</h3><p data-i="mergedP"></p></div></div>
+    </div>
+    <p style="margin-top:1rem"><button class="pill" id="compBtn" type="button"></button></p>
+    <div class="stack-grid">
+      <div class="layers" id="layers">
+        <button class="layer" data-l="0"><b data-i="ly0"></b><span data-i="ly0s"></span></button>
+        <button class="layer" data-l="1"><b data-i="ly1"></b><span>xPortal</span></button>
+        <button class="layer" data-l="2"><b data-i="ly2"></b><span>xMoney + MultiversX</span></button>
+        <button class="layer" data-l="3"><b data-i="ly3"></b><span>xMoney</span></button>
+        <button class="layer ledger" data-l="4"><b data-i="ly4"></b><span>MultiversX</span></button>
+      </div>
+      <article class="ldet" id="ldet" aria-live="polite"></article>
+    </div>
+    <div class="api">
+      <div class="mod"><b data-i="api1"></b><p data-i="api1p"></p></div>
+      <div class="mod"><b data-i="api2"></b><p data-i="api2p"></p></div>
+      <div class="mod"><b data-i="api3"></b><p data-i="api3p"></p></div>
+      <div class="mod"><b data-i="api4"></b><p data-i="api4p"></p></div>
+    </div>
+    <div class="onebal"><span data-i="oneT"></span><span data-i="oneS"></span></div>
+    <div class="partners" data-i="partners"></div>
+
+    <h3 class="adopt-h" data-i="adT"></h3>
+    <p class="sub" data-i="adS"></p>
+    <div class="adopt-grid">
+      <div class="box netbox"><canvas id="net2" aria-hidden="true"></canvas>
+        <div class="nethud"><div><b id="hV"></b><span data-i="hVl"></span></div><div><b id="hT"></b><span data-i="hTl"></span></div><div><b id="hN">3</b><span data-i="hNl"></span></div></div>
+      </div>
+      <aside class="game" id="game">
+        <div class="game-top"><b data-i="gT"></b><span data-i="gS"></span></div>
+        <ol class="levels" id="levels"></ol>
+        <div class="game-bot">
+          <button class="cta" id="nextLv" type="button" data-i="gNext"></button>
+          <button class="pill" id="mass" type="button" data-i="gAll"></button>
+          <button class="pill" id="reset" type="button" data-i="gReset"></button>
+          <button class="pill" id="snd" type="button" aria-pressed="false" data-i="gSnd"></button>
+        </div>
+        <p class="game-note" data-i="gNote"></p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="egld">
+  <div class="wrap">
+    <p class="kicker" data-i="ch4"></p>
+    <h2 data-i="tkT"></h2>
+    <p class="sub" data-i="tkS"></p>
+    <div class="pricebar">
+      <div><b id="pbP"></b><span data-i="pb1"></span></div>
+      <div><b id="pbS"></b><span data-i="pb2"></span></div>
+      <div><b id="pbC"></b><span data-i="pb3"></span></div>
+      <p data-i="pbSrc"></p>
+    </div>
+    <div class="tk-controls">
+      <div class="ctl"><label for="tkY" data-i="cY"></label><input type="range" id="tkY" min="1" max="10" value="1"><output id="tkYo"></output><small data-i="cYs"></small></div>
+      <div class="ctl"><span class="lbl" data-i="cK"></span><span class="seg" id="tkK"><button type="button" data-k="0" aria-pressed="true" data-i="cK0"></button><button type="button" data-k="1" aria-pressed="false" data-i="cK1"></button></span><small data-i="cKs"></small></div>
+    </div>
+    <div class="tk-grid">
+      <div class="box tk-card"><h3 data-i="dnT"></h3><p data-i="dnP"></p>
+        <div class="donut-wrap"><svg viewBox="0 0 200 200" id="donut" role="img"></svg><ul class="legend" id="legend"></ul></div></div>
+      <div class="box tk-card"><h3 data-i="feT"></h3><p data-i="feP"></p>
+        <div class="feebar" aria-hidden="true"><div class="fb-b" id="fbB"></div><div class="fb-x" id="fbX"></div></div><div class="feelbl"><span id="fbBl"></span><span id="fbXl"></span></div>
+        <div class="rules"><div><span data-i="ru1"></span><b class="burn" data-i="ru100"></b></div><div><span data-i="ru2"></span><b class="burn" data-i="ru100"></b></div><div><span data-i="ru3"></span><b data-i="ru3v"></b></div></div>
+        <p class="note" style="margin-top:.9rem" data-i="feNote"></p></div>
+    </div>
+    <div class="box sim">
+      <h3 style="font-size:1.2rem;font-weight:700" data-i="smT"></h3>
+      <div class="sim-grid" style="margin-top:1rem">
+        <div>
+          <label><span data-i="smTps"></span> <span class="val" id="tpsO"></span></label>
+          <input type="range" id="tps" min="0" max="1000" value="250">
+          <div class="presets"><button class="pill" type="button" data-t="10">10</button><button class="pill" type="button" data-t="100">100</button><button class="pill" type="button" data-t="1000">1 000</button><button class="pill" type="button" data-t="10000">10 000</button></div>
+          <label><span data-i="smSh"></span> <span class="val" id="shO"></span></label>
+          <input type="range" id="sh" min="0" max="100" value="50">
+          <div class="ends2"><span data-i="smA"></span><span data-i="smB"></span></div>
+          <p class="expl" data-i="smExpl"></p>
+          <p class="be" id="be" style="margin-top:1rem"></p>
+        </div>
+        <div>
+          <div class="verdict-big" id="vb"></div><p class="note" id="vbl"></p>
+          <div class="flows"><div><b id="fE">0</b><span data-i="fEl"></span><small id="fEu"></small></div><div><b id="fB">0</b><span data-i="fBl"></span><small id="fBu"></small></div></div>
+          <canvas id="balCv" aria-hidden="true"></canvas>
+        </div>
+      </div>
+      <p class="caveat" data-i="smCav"></p>
+    </div>
+    <div class="box whatif">
+      <h3 style="font-size:1.2rem;font-weight:700" data-i="wiT"></h3>
+      <p class="note" data-i="wiP"></p>
+      <div class="whatif-grid">
+        <div>
+          <label style="font-weight:700;font-size:.9rem;display:block"><span data-i="wiCap"></span> <span class="val" id="wiCapO" style="float:right;color:var(--teal)"></span></label>
+          <input type="range" id="wiCap" min="0" max="1000" value="0">
+          <div class="presets" id="wiPre"></div>
+        </div>
+        <div>
+          <div class="big" id="wiPrice"></div>
+          <p class="note" id="wiLine"></p>
+        </div>
+      </div>
+      <p class="warn" data-i="wiWarn"></p>
+    </div>
+  </div>
+</section>
+
+<section id="demain">
+  <div class="wrap">
+    <p class="kicker" data-i="ch5"></p>
+    <h2 data-i="dmT"></h2>
+    <div class="futures" id="futures"></div>
+  </div>
+</section>
+
+<section class="band" id="horloge">
+  <div class="wrap">
+    <p class="kicker" data-i="clockK"></p>
+    <div class="big" id="clock">0</div>
+    <p data-i="clockP"></p>
+  </div>
+</section>
+
+<section class="finale">
+  <div class="wrap">
+    <p class="kicker" data-i="fnK"></p>
+    <h2 data-i="fnT"></h2>
+    <p class="sub" data-i="fnS"></p>
+    <div class="golinks"><a class="cta" href="https://xportal.app.link/referral?code=4bj18txoaj" target="_blank" rel="noopener sponsored" data-i="buy"></a><a class="pill" href="https://www.financecomputer.com" target="_blank" rel="noopener">The Finance Computer</a><a class="pill" href="https://www.xmoney.com" target="_blank" rel="noopener">xMoney</a><a class="pill" href="https://xportal.com" target="_blank" rel="noopener">xPortal</a></div>
+    <p class="note" style="margin-top:.9rem" data-i="buyNote"></p>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><p data-i="foot"></p></div></footer>
+<div class="toast" id="toast" role="status"></div>
+<div class="tools"><button class="pill" id="langToggle" type="button">EN</button><button class="pill" id="themeToggle" type="button" data-i="theme"></button></div>
+
+<script>
+var D={fr:{
+skip:'Passer',introTag:'Une étoile de 600 millisecondes s\u2019apprête à changer la monnaie.',ignite:'Déclencher Supernova',loadA:'Chargement du Finance Computer',loadB:'Prêt · un bloc toutes les 600 ms',
+r0:'Accueil',r1:'Les bases',r2:'L\u2019horloge',r3:'600 ms',r4:'Les usages',r5:'La machine',r6:'EGLD',r7:'Demain',r8:'Quiz',
+heroKicker:'« L\u2019IA représente l\u2019intelligence native des machines, tandis que les actifs numériques représentent la monnaie native des machines. » BlackRock, <i>The Machine-Native Economy</i>, septembre 2026 (traduction).',
+heroTitle:'Et si toute la monnaie passait par un seul ordinateur ?',
+heroSub:'Une banque, un marché et un ordinateur réunis en une seule machine : le Finance Computer, composé de MultiversX, xMoney et xPortal. Voici pourquoi il intéresse l\u2019économie des agents IA.',
+heroCta:'Commencer',heroLive:'Supernova actif depuis le 10 septembre 2026 · un bloc toutes les 600 ms',
+basesK:'Avant de commencer',basesT:'MultiversX en 30 secondes.',basesS:'Pas besoin d\u2019être expert. Quatre idées suffisent pour suivre toute la page.',
+b1t:'Un grand livre partagé',b1p:'MultiversX est une blockchain : un registre public tenu ensemble par des milliers d\u2019ordinateurs, dont environ 3 200 nœuds validateurs. Personne ne peut le modifier seul.',
+b2t:'Plusieurs caisses en parallèle',b2p:'Au lieu d\u2019une seule file d\u2019attente, le réseau se découpe en « shards » : aujourd\u2019hui trois, plus une Metachain qui les coordonne. Plus de caisses, plus de débit.',
+b3t:'Un carburant : EGLD',b3p:'Chaque opération paie un petit frais en EGLD : 0,00005 EGLD pour un transfert simple. Une partie de ces frais est détruite, on dit « brûlée ».',
+b4t:'Des clients d\u2019un nouveau genre',b4p:'Des agents IA qui achètent seuls des données, du calcul ou un billet d\u2019avion, en centimes, jour et nuit. C\u2019est pour eux que la vitesse compte.',
+glossT:'Les mots à connaître',glossS:'· touchez une carte pour la retourner',
+clockK:'Pendant que vous lisez cette page',clockP:'de stablecoins ont circulé dans le monde, au rythme du volume ajusté 2025 publié par BlackRock : 11,2 billions de dollars par an, environ 355 000 $ par seconde. C\u2019est la monnaie que les agents utiliseront d\u2019abord.',
+ch1:'Chapitre 1',tempoT:'Le capital à la vitesse des machines.',tempoS:'Depuis le 10 septembre 2026, MultiversX produit un bloc toutes les 600 millisecondes, et un paiement devient définitif en 100 à 250 millisecondes dans un même shard. Voici ce cœur qui bat, ce que coûte chaque battement, et un paiement face aux rails d\u2019aujourd\u2019hui.',
+rd1:'par bloc',rd2:'finalité dans un shard',rd3:'entre deux shards',rd4:'prix d\u2019un EGLD, 28 sept. 2026',
+bRateL:'Activité simulée :',txs:'transactions par seconde',bOneL:'coût d\u2019un paiement simple (0,00005 EGLD)',bDayL:'de frais par jour à ce rythme',bBurnL:'brûlés par jour si ce sont des paiements simples',
+raceT:'Un paiement, en boucle',raceP:'Chaque barre recommence dès que son paiement est réglé. Pour être juste : SEPA Instant règle en 10 secondes maximum, et les actions américaines sont passées à T+1 en 2024. Mais aucun de ces rails ne tourne à la cadence d\u2019un agent.',
+ln3:'un bloc toutes les 600 ms',ln2t:'Carte bancaire',ln2:'autorisation ≈ 2 s, règlement ensuite',ln1t:'Virement SEPA',ln1:'classique : jusqu\u2019à 1 jour ouvré',ln0t:'Actions en Europe',ln0:'T+2 jours ouvrés',
+telT:'Un round de 600 ms, vu de l\u2019intérieur',telLive:'Télémétrie simulée',telP:'À chaque round, un bloc est proposé, les validateurs envoient leur preuve, puis le bloc est validé : il est alors définitif. Le reste du round est une marge. Ordres de grandeur relevés sur le tableau de bord public <a href="https://telemetry.multiversx.com">telemetry.multiversx.com</a>.',
+sgP:'Proposition',sgQ:'Preuve',sgB:'Marge',mk200:'futur round 200 ms',mk400:'futur round 400 ms',lgP:'Proposition du bloc',lgQ:'Preuve des validateurs',lgC:'Validé : définitif',lgB:'Marge',stN:'round',stF:'finalité de ce bloc',stA:'moyenne des 20 derniers',stM:'marge avant le round suivant',
+telFoot:'La télémétrie officielle affiche déjà des repères pour de futurs rounds à 400 ms puis 200 ms. Ce ne sont pas encore les réglages du réseau.',
+ch2:'Chapitre 2',ucT:'Suivez l\u2019argent à travers la machine.',ucS:'Choisissez un usage. Chaque flux traverse le Finance Computer, et la couche qui s\u2019allume montre qui fait le travail : <b>xPortal</b> quand un humain donne un mandat ou consulte son solde, <b>xMoney</b> quand l\u2019argent passe par une carte ou un virement, <b>MultiversX</b> quand il se règle sur la blockchain en 600 ms. Toutes les couches partagent un seul solde.',
+os1:'Pour les agents et les robots : un budget, une limite, ils paient seuls.',os2:'Pour les marques : le paiement, le solde et la récompense dans leur propre app.',os3:'Pour des marchés qui ne ferment jamais, même un dimanche à 2 h.',
+h1:'paiements',h2:'montant total',h3:'réglés sur MultiversX',h4:'passés par xMoney',replay:'Rejouer',illus:'Montants illustratifs.',
+ch3:'Chapitre 3',fcT:'Une banque. Un marché. Un ordinateur.',fcS:'Trois choses que la finance a toujours séparées, composées en une seule machine, avec un seul état et un seul solde.',
+pc1n:'La licence',pc1t:'Une banque.',pc1p:'Comptes en euros avec IBAN, cartes, acceptation des paiements, virements SEPA et SWIFT.',pc1w:'xMoney : monnaie électronique, acquisition et émission de cartes, prestataire d\u2019actifs numériques enregistré',
+pc2n:'L\u2019actif',pc2t:'Un marché.',pc2p:'Actions, fonds monétaires, actifs réels tokenisés : des marchés qui ne ferment jamais.',pc2w:'Tokenisation native des actifs sur MultiversX',
+pc3n:'Le calcul',pc3t:'Un ordinateur.',pc3p:'Des programmes qui lisent, décident et agissent sur l\u2019argent, à 600 ms.',pc3w:'MultiversX Supernova, pilotable par des agents',
+mergedP:'Lire. Programmer. Agir. Un seul état, un seul solde, 600 ms.',compose:'Composer la machine',decompose:'Décomposer',
+ly0:'Marques et apps',ly0s:'vous, ou votre agent',ly1:'Logique produit',ly2:'Les rails',ly3:'La licence',ly4:'Le registre',
+api1:'Comptes',api1p:'IBAN en euros, valeur stockée, transferts entre membres.',api2:'Cartes',api2p:'Émission, autorisation en temps réel, plafonds.',api3:'Paiements',api3p:'Acceptation, facturation, virements SEPA et SWIFT.',api4:'Rampes',api4p:'Du fiat au numérique, règlement en stablecoins.',
+oneT:'Une API. Un solde. Un registre.',oneS:'Les quatre modalités se résolvent dans un seul enregistrement, dans les deux sens.',
+partners:'Partenaires présentés comme en service sur financecomputer.com : <b>Tradeville</b> courtage · <b>ProMotors</b> automobile · <b>Domino\u2019s</b> restauration',
+adT:'Et si toute la monnaie passait par cette machine ?',adS:'Le jeu de l\u2019adoption. Faites grandir le réseau jusqu\u2019à porter autant d\u2019argent que les géants du paiement. Plus l\u2019adoption monte, plus il y a d\u2019agents et de shards : MultiversX ajoute de la capacité en ajoutant des shards.',
+hVl:'par an dans la simulation',hTl:'chaque seconde',hNl:'shards actifs',gT:'Le jeu de l\u2019adoption',gS:'Chaque barre = votre progression vers un palier. Cliquez sur un palier pour y aller.',gNext:'Palier suivant →',gAll:'Tout débloquer',gReset:'Réinitialiser',gSnd:'Son',
+gNote:'Volumes annuels 2025 cités par BlackRock, non directement comparables entre eux. Départ fictif : 1 Md$ par an. Au-delà de trois shards, la simulation illustre le principe du sharding adaptatif, pas la configuration actuelle.',
+ch4:'Chapitre 4',tkT:'EGLD, le carburant du Finance Computer.',tkS:'Depuis le 2 décembre 2025, EGLD n\u2019a plus de plafond fixe : une émission qui décroît chaque année finance la sécurité et la croissance, et chaque transaction en brûle une partie. Réglez les curseurs et cherchez à partir de combien de transactions EGLD devient déflationniste, c\u2019est-à-dire quand il en est détruit plus qu\u2019il n\u2019en est créé.',
+pb1:'prix d\u2019un EGLD',pb2:'EGLD en circulation',pb3:'capitalisation',pbSrc:'Source : CoinMarketCap, 28 septembre 2026. Le prix varie en continu ; il sert ici à convertir les simulations en dollars.',
+cY:'Quelle année du nouveau modèle ?',cYs:'Chaque année, l\u2019émission baisse de 0,25 point et la part brûlée des frais d\u2019applications monte de 5 points. Simplification : la nouvelle structure de frais, annoncée pour fin 2026, démarrerait en réalité un an après l\u2019émission.',
+cK:'L\u2019écosystème grandit-il ?',cK0:'Pas encore',cK1:'Oui, fortement',cKs:'40 % des nouveaux EGLD ne sont libérés que si la croissance est mesurée : plus d\u2019EGLD en staking, plus de frais brûlés, plus d\u2019activité DeFi. Sinon, ils restent bloqués.',
+dnT:'Où vont les EGLD émis',dnP:'Quatre enveloppes. Les 40 % destinés à la croissance restent verrouillés tant que les objectifs ne sont pas atteints.',
+feT:'Ce que devient chaque frais',feP:'Frais de base d\u2019une application : une part aux développeurs, une part brûlée. L\u2019année déplace la frontière de 5 points par an.',
+ru1:'Paiements simples, données, sans contrat',ru2:'Transactions échouées',ru3:'Frais de priorité',ru100:'100 % brûlé',ru3v:'100 % validateurs',feNote:'Structure annoncée pour environ un mois après Supernova, à confirmer.',
+smT:'Quand la machine brûle-t-elle plus qu\u2019elle n\u2019émet ?',smTps:'Combien de transactions par seconde ?',smSh:'Quel type d\u2019activité ?',smA:'Surtout des applications',smB:'Surtout des paiements',
+smExpl:'Un paiement simple (envoyer des EGLD ou des jetons) voit ses frais brûlés à 100 %. Une application (smart contract) partage ses frais entre ses développeurs et le burn.',
+fEl:'EGLD créés par an',fBl:'EGLD détruits par an',
+smCav:'Hypothèses : offre d\u2019environ 30,8 millions d\u2019EGLD (CoinMarketCap, 28 septembre 2026) ; chaque transaction paie le frais minimal d\u2019un transfert simple, 0,00005 EGLD (les applications coûtent davantage, l\u2019estimation du burn est donc prudente) ; décroissance simplifiée à −0,25 point par an, alors que le modèle officiel l\u2019ajuste selon la croissance mesurée. Le curseur s\u2019arrête à 10 000 transactions par seconde : au-delà, ce modèle simple n\u2019a plus de sens, car le burn dépasserait l\u2019offre elle-même en quelques années ; en pratique, la gouvernance ajusterait le prix des frais. La suppression du plafond de 31,4 millions a été contestée par une partie de la communauté avant d\u2019être adoptée par vote de gouvernance.',
+wiT:'Prix simulé de l\u2019EGLD : et si ?',wiP:'Choisissez une capitalisation, ou comparez EGLD à Solana, Ethereum ou Bitcoin : voici le prix par EGLD qui en découlerait avec l\u2019offre actuelle. Capitalisations arrondies au 28 septembre 2026 (Coinbase, Forbes).',wiCap:'Capitalisation imaginée',
+wiWarn:'Ceci est un calcul, pas une prévision : prix = capitalisation choisie ÷ offre actuelle. Rien n\u2019indique qu\u2019EGLD atteindra l\u2019une de ces capitalisations. Les crypto-actifs sont très volatils ; ne jamais investir plus que ce que l\u2019on peut perdre.',
+ch5:'Chapitre 5',dmT:'Ce qui existe déjà. Ce que cela rend possible.',
+qzK:'À vous de jouer',qzT:'Cinq questions pour vérifier que tout est clair.',qzScore:'Score :',qzReset:'Recommencer',
+fnK:'Et maintenant',fnT:'L\u2019argent est de l\u2019information. Donnez\u2011lui des instructions.',fnS:'La vision est grande, le chemin est réel.',
+re1:'La part du volume x402 réellement faite par des agents IA aujourd\u2019hui, selon TRM Labs. L\u2019économie machine-native commence à peine.',re2t:'En attente',re2:'Les stablecoins EURXM, USDXM et RONXM de xMoney attendent la désignation de l\u2019autorité compétente en Roumanie.',re3t:'5 jours',re3:'Le réseau a été mis en pause du 19 au 24 septembre 2026 après un exploit au niveau de la machine virtuelle, puis a redémarré.',
+buy:'Acheter des EGLD sur xPortal',buyNote:'Le lien « Acheter des EGLD sur xPortal » est un lien de parrainage. Investir dans des crypto-actifs comporte un risque de perte en capital. Cette page n\u2019est pas un conseil en investissement.',
+theme:'Thème',
+foot:'Page de vision. Les simulations, flux et montants sont illustratifs et ne mesurent pas l\u2019activité réelle du réseau. Les volumes ACH (93 T$), Visa (16,7 T$), Mastercard (10,6 T$) et stablecoins (11,2 T$) sont ceux cités par BlackRock pour 2025 ; ils ne sont pas directement comparables. Les briques signalées « à venir » ne sont pas encore disponibles. Sources : <a href="https://www.blackrock.com/us/individual/literature/whitepaper/the-machine-native-economy.pdf">BlackRock</a> ; <a href="https://www.stobox.io/blog/machine-native-economy-ai-agents-tokenized-assets">lecture détaillée des chiffres BlackRock</a> ; <a href="https://www.financecomputer.com">The Finance Computer</a> ; <a href="https://supernova.multiversx.com/builders">Supernova</a> ; <a href="https://multiversx.com/blog/agent-architecture">Agent Architecture</a> ; <a href="https://telemetry.multiversx.com">télémétrie</a> ; <a href="https://multiversx.com/blog/the-multiversx-universal-agentic-commerce-stack">Agentic Commerce Stack</a> ; <a href="https://multiversx.com/release/release-economics-update-phase-1-v1-11-1">Staking V5 et émissions</a> ; <a href="https://agora.multiversx.com/t/2-updated-fee-market-and-burn-mechanism/532">marché des frais</a> ; <a href="https://docs.multiversx.com/developers/gas-and-fees/egld-transfers/">frais d\u2019un transfert</a> ; <a href="https://www.xmoney.com/stablecoins">xMoney</a> ; <a href="https://stablecoininsider.org/blackrock-machine-native-economy/">données TRM Labs</a> ; <a href="https://coinmarketcap.com/currencies/multiversx-egld/">prix EGLD</a>. Pas un conseil en investissement.'
+},en:{
+skip:'Skip',introTag:'A 600-millisecond star is about to change money.',ignite:'Trigger Supernova',loadA:'Loading the Finance Computer',loadB:'Ready · one block every 600 ms',
+r0:'Home',r1:'The basics',r2:'The clock',r3:'600 ms',r4:'Use cases',r5:'The machine',r6:'EGLD',r7:'Tomorrow',r8:'Quiz',
+heroKicker:'“AI represents machine-native intelligence, while digital assets represent machine-native money.” BlackRock, <i>The Machine-Native Economy</i>, September 2026.',
+heroTitle:'What if all money ran through a single computer?',
+heroSub:'A bank, a market and a computer combined into one machine: the Finance Computer, built from MultiversX, xMoney and xPortal. Here is why it matters for the AI agent economy.',
+heroCta:'Start',heroLive:'Supernova live since 10 September 2026 · one block every 600 ms',
+basesK:'Before we start',basesT:'MultiversX in 30 seconds.',basesS:'No expertise needed. Four ideas are enough to follow the whole page.',
+b1t:'A shared ledger',b1p:'MultiversX is a blockchain: a public ledger kept together by thousands of computers, including about 3,200 validator nodes. No one can change it alone.',
+b2t:'Several checkouts in parallel',b2p:'Instead of one queue, the network is split into “shards”: three today, plus a Metachain that coordinates them. More checkouts, more throughput.',
+b3t:'A fuel: EGLD',b3p:'Every operation pays a small fee in EGLD: 0.00005 EGLD for a simple transfer. Part of these fees is destroyed, or “burned”.',
+b4t:'A new kind of customer',b4p:'AI agents that buy data, compute or a plane ticket on their own, in cents, day and night. Speed matters because of them.',
+glossT:'Words to know',glossS:'· tap a card to flip it',
+clockK:'While you read this page',clockP:'in stablecoins have moved worldwide, at the 2025 adjusted volume rate published by BlackRock: $11.2 trillion a year, about $355,000 per second. This is the money agents will use first.',
+ch1:'Chapter 1',tempoT:'Capital at machine speed.',tempoS:'Since 10 September 2026, MultiversX produces a block every 600 milliseconds, and a payment becomes final in 100 to 250 milliseconds within a shard. Here is that beating heart, what each beat costs, and one payment against today\u2019s rails.',
+rd1:'per block',rd2:'finality within a shard',rd3:'between two shards',rd4:'price of one EGLD, 28 Sept 2026',
+bRateL:'Simulated activity:',txs:'transactions per second',bOneL:'cost of a simple payment (0.00005 EGLD)',bDayL:'in fees per day at this rate',bBurnL:'burned per day if these are simple payments',
+raceT:'One payment, on a loop',raceP:'Each bar restarts as soon as its payment settles. To be fair: SEPA Instant settles in 10 seconds at most, and US equities moved to T+1 in 2024. But none of these rails runs at an agent\u2019s pace.',
+ln3:'one block every 600 ms',ln2t:'Card payment',ln2:'authorization ≈ 2 s, settlement later',ln1t:'SEPA transfer',ln1:'standard: up to 1 business day',ln0t:'European equities',ln0:'T+2 business days',
+telT:'A 600 ms round, from the inside',telLive:'Simulated telemetry',telP:'Each round, a block is proposed, validators send their proof, then the block is validated: it is now final. The rest of the round is buffer. Orders of magnitude taken from the public dashboard <a href="https://telemetry.multiversx.com">telemetry.multiversx.com</a>.',
+sgP:'Proposal',sgQ:'Proof',sgB:'Buffer',mk200:'future 200 ms round',mk400:'future 400 ms round',lgP:'Block proposal',lgQ:'Validator proof',lgC:'Validated: final',lgB:'Buffer',stN:'round',stF:'finality of this block',stA:'average of last 20',stM:'buffer before next round',
+telFoot:'The official telemetry already shows markers for future 400 ms and 200 ms rounds. These are not yet the network\u2019s settings.',
+ch2:'Chapter 2',ucT:'Follow the money through the machine.',ucS:'Pick a use case. Every flow crosses the Finance Computer, and the layer that lights up shows who does the work: <b>xPortal</b> when a human gives a mandate or checks a balance, <b>xMoney</b> when money moves by card or bank transfer, <b>MultiversX</b> when it settles on-chain in 600 ms. All layers share one single balance.',
+os1:'For agents and robots: a budget, a limit, they pay on their own.',os2:'For brands: payment, balance and reward inside their own app.',os3:'For markets that never close, even at 2 a.m. on a Sunday.',
+h1:'payments',h2:'total amount',h3:'settled on MultiversX',h4:'through xMoney',replay:'Replay',illus:'Illustrative amounts.',
+ch3:'Chapter 3',fcT:'A bank. A market. A computer.',fcS:'Three things finance has always kept apart, composed into one machine, with one state and one balance.',
+pc1n:'The licence',pc1t:'A bank.',pc1p:'Euro accounts with IBANs, cards, payment acceptance, SEPA and SWIFT transfers.',pc1w:'xMoney: e-money institution, card acquiring and issuing, registered virtual asset provider',
+pc2n:'The asset',pc2t:'A market.',pc2p:'Stocks, money market funds, tokenized real-world assets: markets that never close.',pc2w:'Native asset tokenization on MultiversX',
+pc3n:'The compute',pc3t:'A computer.',pc3p:'Programs that read, decide and act on money, at 600 ms.',pc3w:'MultiversX Supernova, drivable by agents',
+mergedP:'Read. Program. Act. One state, one balance, 600 ms.',compose:'Compose the machine',decompose:'Decompose',
+ly0:'Brands and apps',ly0s:'you, or your agent',ly1:'Product logic',ly2:'The rails',ly3:'The licence',ly4:'The ledger',
+api1:'Accounts',api1p:'Euro IBANs, stored value, member transfers.',api2:'Cards',api2p:'Issuing, real-time authorization, spend controls.',api3:'Payments',api3p:'Acceptance, invoicing, SEPA and SWIFT payouts.',api4:'Ramps',api4p:'Fiat to digital, stablecoin settlement.',
+oneT:'One API. One balance. One ledger.',oneS:'All four modalities resolve to a single record, in both directions.',
+partners:'Partners shown as live on financecomputer.com: <b>Tradeville</b> brokerage · <b>ProMotors</b> automotive · <b>Domino\u2019s</b> food',
+adT:'What if all money ran through this machine?',adS:'The adoption game. Grow the network until it carries as much money as the payment giants. The more adoption rises, the more agents and shards: MultiversX adds capacity by adding shards.',
+hVl:'per year in the simulation',hTl:'every second',hNl:'active shards',gT:'The adoption game',gS:'Each bar = your progress toward a milestone. Click a milestone to jump there.',gNext:'Next milestone →',gAll:'Unlock all',gReset:'Reset',gSnd:'Sound',
+gNote:'2025 annual volumes cited by BlackRock, not directly comparable with each other. Fictional start: $1B a year. Beyond three shards, the simulation illustrates the adaptive sharding principle, not the current configuration.',
+ch4:'Chapter 4',tkT:'EGLD, the fuel of the Finance Computer.',tkS:'Since 2 December 2025, EGLD no longer has a fixed cap: a yearly-decreasing emission funds security and growth, and every transaction burns part of it. Adjust the sliders and find how many transactions it takes for EGLD to become deflationary, meaning more is destroyed than created.',
+pb1:'price of one EGLD',pb2:'EGLD in circulation',pb3:'market cap',pbSrc:'Source: CoinMarketCap, 28 September 2026. The price moves continuously; it is used here to convert simulations into dollars.',
+cY:'Which year of the new model?',cYs:'Each year, emission drops by 0.25 points and the burned share of app fees rises by 5 points. Simplification: the new fee structure, announced for late 2026, would actually start one year after the emission model.',
+cK:'Is the ecosystem growing?',cK0:'Not yet',cK1:'Yes, strongly',cKs:'40% of new EGLD is only released if growth is measured: more EGLD staked, more fees burned, more DeFi activity. Otherwise it stays locked.',
+dnT:'Where new EGLD goes',dnP:'Four buckets. The 40% meant for growth stays locked until the targets are met.',
+feT:'What happens to each fee',feP:'Base fee of an app: one share to developers, one share burned. The year slider moves the line by 5 points a year.',
+ru1:'Simple payments, data, no contract',ru2:'Failed transactions',ru3:'Priority fees',ru100:'100% burned',ru3v:'100% validators',feNote:'Structure announced for about one month after Supernova, to be confirmed.',
+smT:'When does the machine burn more than it issues?',smTps:'How many transactions per second?',smSh:'What kind of activity?',smA:'Mostly apps',smB:'Mostly payments',
+smExpl:'A simple payment (sending EGLD or tokens) has its fees 100% burned. An app (smart contract) splits its fees between its developers and the burn.',
+fEl:'EGLD created per year',fBl:'EGLD destroyed per year',
+smCav:'Assumptions: supply of about 30.8 million EGLD (CoinMarketCap, 28 September 2026); each transaction pays the minimum fee of a simple transfer, 0.00005 EGLD (apps cost more, so the burn estimate is conservative); decay simplified to −0.25 points a year, while the official model adjusts it to measured growth. The slider stops at 10,000 transactions per second: beyond that, this simple model breaks down, since the burn would exceed the supply itself within a few years; in practice, governance would adjust the fee price. Removing the 31.4 million cap was contested by part of the community before being adopted by governance vote.',
+wiT:'Simulated EGLD price: what if?',wiP:'Pick a market cap, or compare EGLD with Solana, Ethereum or Bitcoin: here is the resulting price per EGLD with today\u2019s supply. Market caps rounded as of 28 September 2026 (Coinbase, Forbes).',wiCap:'Imagined market cap',
+wiWarn:'This is arithmetic, not a forecast: price = chosen market cap ÷ current supply. Nothing suggests EGLD will reach any of these market caps. Crypto-assets are highly volatile; never invest more than you can afford to lose.',
+ch5:'Chapter 5',dmT:'What already exists. What it makes possible.',
+qzK:'Your turn',qzT:'Five questions to check everything is clear.',qzScore:'Score:',qzReset:'Start over',
+fnK:'And now',fnT:'Money is information. Give it instructions.',fnS:'The vision is big, the road is real.',
+re1:'The share of x402 volume actually made by AI agents today, according to TRM Labs. The machine-native economy has barely begun.',re2t:'Pending',re2:'xMoney\u2019s EURXM, USDXM and RONXM stablecoins are waiting for Romania to designate the competent authority.',re3t:'5 days',re3:'The network was paused from 19 to 24 September 2026 after a virtual-machine-level exploit, then restarted.',
+buy:'Buy EGLD on xPortal',buyNote:'The “Buy EGLD on xPortal” link is a referral link. Investing in crypto-assets carries a risk of capital loss. This page is not investment advice.',
+theme:'Theme',
+foot:'Vision page. Simulations, flows and amounts are illustrative and do not measure actual network activity. ACH ($93T), Visa ($16.7T), Mastercard ($10.6T) and stablecoin ($11.2T) volumes are those cited by BlackRock for 2025; they are not directly comparable. Items marked “coming” are not yet available. Sources: <a href="https://www.blackrock.com/us/individual/literature/whitepaper/the-machine-native-economy.pdf">BlackRock</a>; <a href="https://www.stobox.io/blog/machine-native-economy-ai-agents-tokenized-assets">detailed reading of BlackRock\u2019s figures</a>; <a href="https://www.financecomputer.com">The Finance Computer</a>; <a href="https://supernova.multiversx.com/builders">Supernova</a>; <a href="https://multiversx.com/blog/agent-architecture">Agent Architecture</a>; <a href="https://telemetry.multiversx.com">telemetry</a>; <a href="https://multiversx.com/blog/the-multiversx-universal-agentic-commerce-stack">Agentic Commerce Stack</a>; <a href="https://multiversx.com/release/release-economics-update-phase-1-v1-11-1">Staking V5 and emissions</a>; <a href="https://agora.multiversx.com/t/2-updated-fee-market-and-burn-mechanism/532">fee market</a>; <a href="https://docs.multiversx.com/developers/gas-and-fees/egld-transfers/">transfer fees</a>; <a href="https://www.xmoney.com/stablecoins">xMoney</a>; <a href="https://stablecoininsider.org/blackrock-machine-native-economy/">TRM Labs data</a>; <a href="https://coinmarketcap.com/currencies/multiversx-egld/">EGLD price</a>. Not investment advice.'
+}};
+document.documentElement.classList.add('js');
+(function(){
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var root=document.documentElement, C={};
+var PRICE=4.51, SUPPLY0=30.8e6, FEE=0.00005;
+/* ---------- langue ---------- */
+var LANG='fr'; try{ LANG=localStorage.getItem('mvx-lang')||((navigator.language||'fr').slice(0,2)==='fr'?'fr':'en'); }catch(e){}
+var onLang=[];
+function T(k){ return (D[LANG]&&D[LANG][k]!=null)?D[LANG][k]:(D.fr[k]||k); }
+function L(o){ return Array.isArray(o)?(LANG==='en'?o[1]:o[0]):o; }
+function applyStatic(){ root.lang=LANG; document.title=LANG==='en'?'The Finance Computer: the machine-native economy on MultiversX':'Le Finance Computer : l\u2019économie machine-native sur MultiversX';
+  [].forEach.call(document.querySelectorAll('[data-i]'),function(e){ e.innerHTML=T(e.getAttribute('data-i')); });
+  document.getElementById('langToggle').textContent=LANG==='fr'?'EN':'FR'; }
+function setLang(l){ LANG=l; try{ localStorage.setItem('mvx-lang',l); }catch(e){} applyStatic(); onLang.forEach(function(f){ f(); }); }
+document.getElementById('langToggle').addEventListener('click',function(){ setLang(LANG==='fr'?'en':'fr'); });
+/* ---------- couleurs, thème ---------- */
+function readColors(){ var s=getComputedStyle(root); ['--teal','--ink','--ink-2','--rule','--bg','--surface'].forEach(function(k){ C[k]=s.getPropertyValue(k).trim(); }); C.glow=parseFloat(s.getPropertyValue('--glow'))||0; }
+try{ var sv=localStorage.getItem('mvx-theme4'); if(sv) root.setAttribute('data-theme',sv); }catch(e){}
+readColors();
+document.getElementById('themeToggle').addEventListener('click',function(){ var dark=root.getAttribute('data-theme')?root.getAttribute('data-theme')==='dark':matchMedia('(prefers-color-scheme: dark)').matches; var nx=dark?'light':'dark'; root.setAttribute('data-theme',nx); try{localStorage.setItem('mvx-theme4',nx);}catch(e){} readColors(); });
+if(window.matchMedia) matchMedia('(prefers-color-scheme: dark)').addEventListener('change',readColors);
+function rgba(h,a){ h=(h||'#888').replace('#',''); if(h.length===3) h=h.split('').map(function(c){return c+c;}).join(''); var n=parseInt(h,16); return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')'; }
+/* ---------- nombres ---------- */
+function fr(n,d){ return n.toLocaleString(LANG==='en'?'en-US':'fr-FR',{minimumFractionDigits:d||0,maximumFractionDigits:d||0}); }
+function pct(n,d){ return LANG==='en'?fr(n,d)+'%':fr(n,d)+'\u00a0%'; }
+function trimz(s){ return s.replace(/[.,]0$/,''); }
+function money(v){ var u,x; if(v>=1e12){u=LANG==='en'?'T':'\u00a0T$';x=v/1e12;} else if(v>=1e9){u=LANG==='en'?'B':'\u00a0Md$';x=v/1e9;} else if(v>=1e6){u=LANG==='en'?'M':'\u00a0M$';x=v/1e6;} else { return usd(v); }
+  var s=trimz(fr(x,x<1000?1:0)); return LANG==='en'?'$'+s+u:s+u; }
+function usd(v){ var d=v<0.01?4:v<1?3:v<1000?2:0; var s=fr(v,d); return LANG==='en'?'$'+s:s+'\u00a0$'; }
+function eur(v){ var d=v===0?0:v<0.01?4:v<1?3:(Math.abs(v-Math.round(v))<1e-9?0:2); var s=fr(v,d); return LANG==='en'?'€'+s:s+'\u00a0€'; }
+function lerp(a,b,t){ return a+(b-a)*t; }
+function smooth(e0,e1,x){ var t=Math.max(0,Math.min(1,(x-e0)/(e1-e0))); return t*t*(3-2*t); }
+var T0=performance.now();
+/* ---------- progression + rail ---------- */
+var prog=document.getElementById('prog'), rl=[].slice.call(document.querySelectorAll('.rail a'));
+function onScroll(){ var h=document.documentElement; prog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'; var y=innerHeight*.4, best=rl[0]; rl.forEach(function(a){ var t=document.querySelector(a.getAttribute('href')); if(t&&t.getBoundingClientRect().top<y) best=a; }); rl.forEach(function(a){ a.classList.toggle('on',a===best); }); }
+addEventListener('scroll',onScroll,{passive:true});
+/* ---------- son ---------- */
+var AC=null, soundOn=false, sndB=document.getElementById('snd');
+sndB.addEventListener('click',function(){ soundOn=!soundOn; sndB.setAttribute('aria-pressed',soundOn); if(soundOn&&!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } });
+function blip(f,v,d){ if(!soundOn||!AC) return; var o=AC.createOscillator(),g=AC.createGain(); o.frequency.value=f; g.gain.setValueAtTime(v,AC.currentTime); g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(d||.15)); o.connect(g); g.connect(AC.destination); o.start(); o.stop(AC.currentTime+(d||.15)); }
+function visWatch(el,cb,th){ if('IntersectionObserver' in window) new IntersectionObserver(function(e){ cb(e[0].isIntersecting); },{threshold:th||0}).observe(el); else cb(true); }
+applyStatic(); onScroll();
+
+/* ================= INTRO SUPERNOVA ================= */
+(function(){
+  var intro=document.getElementById('intro'), cv=document.getElementById('introCv'), c=cv.getContext('2d'), ig=document.getElementById('ignite'), lI=document.getElementById('loadI'), lT=document.getElementById('loadT');
+  var W,H,cx,cy, st='idle', t0=performance.now(), bt=0, parts=[], dust=[], raf, minT=reduce?200:1400, fontsOk=false;
+  function size(){ var d=Math.min(devicePixelRatio||1,2); W=innerWidth; H=innerHeight; cv.width=W*d; cv.height=H*d; c.setTransform(d,0,0,d,0,0); cx=W/2; cy=H*.4; }
+  size(); addEventListener('resize',size);
+  for(var i=0;i<220;i++) dust.push({a:Math.random()*6.283,r:80+Math.random()*Math.max(W,H)*.6,s:.002+Math.random()*.006,z:Math.random()});
+  (document.fonts?document.fonts.ready:Promise.resolve()).then(function(){ fontsOk=true; });
+  function done(){ if(intro.classList.contains('out')) return; intro.classList.add('out'); root.classList.remove('intro-on'); setTimeout(function(){ cancelAnimationFrame(raf); intro.remove(); },950); }
+  function ignite(){ if(st!=='idle'||ig.disabled) return; if(reduce){ done(); return; } st='implode'; bt=performance.now(); intro.classList.add('boom'); }
+  ig.addEventListener('click',function(e){ e.stopPropagation(); ignite(); });
+  intro.addEventListener('click',ignite);
+  document.getElementById('skip').addEventListener('click',function(e){ e.stopPropagation(); done(); });
+  addEventListener('keydown',function(e){ if(e.key==='Escape'&&document.getElementById('intro')) done(); });
+  function boomParts(){ var cols=['#23F7DD','#FFFFFF','#23F7DD','#9FFBF0']; for(var i=0;i<(W<700?500:1100);i++){ var a=Math.random()*6.283, v=2+Math.pow(Math.random(),.6)*(W<700?11:18); parts.push({x:cx,y:cy,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l:1,col:cols[i%4],r:Math.random()*2+.6}); } }
+  function draw(now){ raf=requestAnimationFrame(draw); var el=now-t0;
+    if(st==='idle'){ var p=Math.min(1,el/minT); if(!fontsOk) p=Math.min(p,.9); lI.style.width=(p*100)+'%'; lT.textContent=p<1?T('loadA')+' · '+Math.round(p*100)+' %':T('loadB'); if(p>=1&&ig.disabled){ ig.disabled=false; ig.focus({preventScroll:true}); } }
+    c.fillStyle='rgba(2,6,12,'+(st==='boom'?.22:.35)+')'; c.fillRect(0,0,W,H);
+    var beat=(el%600)/600, pulse=1+.08*Math.exp(-beat*6);
+    dust.forEach(function(d){ if(st!=='boom'){ d.a+=d.s*(st==='implode'?6:1); d.r-=st==='implode'?d.r*.08:.15; if(d.r<30) d.r=Math.max(W,H)*.6; } c.fillStyle='rgba(143,163,182,'+(.25+.5*d.z)+')'; c.fillRect(cx+Math.cos(d.a)*d.r,cy+Math.sin(d.a)*d.r*.55,1.2,1.2); });
+    if(st!=='boom'){ var k=st==='implode'?Math.max(.15,1-(now-bt)/380):1, R=Math.min(W,H)*.06*pulse*k;
+      var g=c.createRadialGradient(cx,cy,0,cx,cy,R*6); g.addColorStop(0,'rgba(255,255,255,.95)'); g.addColorStop(.12,'rgba(35,247,221,.85)'); g.addColorStop(.4,'rgba(35,247,221,.18)'); g.addColorStop(1,'rgba(2,6,12,0)');
+      c.fillStyle=g; c.beginPath(); c.arc(cx,cy,R*6,0,6.283); c.fill();
+      c.strokeStyle='rgba(35,247,221,'+(.5*(1-beat))+')'; c.lineWidth=1.5; c.beginPath(); c.arc(cx,cy,R*(1.5+beat*3),0,6.283); c.stroke();
+      if(st==='implode'&&now-bt>380){ st='boom'; bt=now; boomParts(); } }
+    else { var e=now-bt;
+      if(e<260){ c.fillStyle='rgba(255,255,255,'+(1-e/260)+')'; c.fillRect(0,0,W,H); }
+      [0,120,260].forEach(function(dl,i){ var ee=e-dl; if(ee<0) return; var a=Math.max(0,1-ee/1400); c.strokeStyle=(i===1?'rgba(255,255,255,':'rgba(35,247,221,')+a+')'; c.lineWidth=6*a+1; c.beginPath(); c.arc(cx,cy,ee*(W<700?1.1:1.8),0,6.283); c.stroke(); });
+      c.globalCompositeOperation='lighter';
+      parts.forEach(function(p){ p.x+=p.vx; p.y+=p.vy; p.vx*=.985; p.vy*=.985; p.l-=.009; if(p.l<=0) return; c.globalAlpha=p.l; c.fillStyle=p.col; c.fillRect(p.x,p.y,p.r*2,p.r*2); });
+      c.globalAlpha=1; c.globalCompositeOperation='source-over'; if(e>1300) done(); } }
+  raf=requestAnimationFrame(draw);
+})();
+
+/* ================= HÉROS : CŒUR QUI BAT ================= */
+(function(){
+  var cv=document.getElementById('core'), c=cv.getContext('2d'), W,H, vis=true, rings=[], last=0, orb=[];
+  function size(){ var d=Math.min(devicePixelRatio||1,2); W=cv.clientWidth; H=cv.clientHeight; cv.width=W*d; cv.height=H*d; c.setTransform(d,0,0,d,0,0); }
+  size(); addEventListener('resize',size);
+  for(var i=0;i<90;i++) orb.push({a:Math.random()*6.283,r:.2+Math.random()*.8,s:(.0008+Math.random()*.002)*(Math.random()<.5?-1:1),z:Math.random()});
+  visWatch(cv,function(v){ vis=v; });
+  (function f(now){ requestAnimationFrame(f); if(!vis) return;
+    var h1=cv.parentNode.querySelector('h1').getBoundingClientRect(), cr=cv.getBoundingClientRect(), cx=h1.left-cr.left+h1.width/2, cy=h1.top-cr.top+h1.height/2, R0=Math.min(W,H)*.06, R=Math.min(W*.48,H*.5);
+    if(!last) last=now; if(now-last>=600){ last=now; rings.push({t:0}); }
+    c.clearRect(0,0,W,H);
+    // orbites fines
+    c.strokeStyle=rgba(C['--ink'],.07); c.lineWidth=1; [0.45,0.7,1].forEach(function(k){ c.beginPath(); c.ellipse(cx,cy,R*k,R*k*.42,-.3,0,6.283); c.stroke(); });
+    // particules en orbite
+    orb.forEach(function(o){ if(!reduce) o.a+=o.s; var x=cx+Math.cos(o.a)*R*o.r, y=cy+Math.sin(o.a)*R*o.r*.42; var rx=x-cx, ry=y-cy, cs=Math.cos(-.3), sn=Math.sin(-.3); c.fillStyle=rgba(o.z>.8?C['--teal']:C['--ink'],.25+.5*o.z); c.fillRect(cx+rx*cs-ry*sn,cy+rx*sn+ry*cs,1.6,1.6); });
+    // anneaux émis à chaque bloc
+    for(var i=rings.length-1;i>=0;i--){ var r=rings[i]; r.t+=16/2400; if(r.t>=1){ rings.splice(i,1); continue; } c.strokeStyle=rgba(C['--teal'],.45*(1-r.t)); c.lineWidth=1.5; c.beginPath(); c.arc(cx,cy,R0+r.t*R*1.1,0,6.283); c.stroke(); }
+    var beat=((now-last)%600)/600, p=1+.06*Math.exp(-beat*7);
+    var g=c.createRadialGradient(cx,cy,0,cx,cy,R0*3.2*p); g.addColorStop(0,rgba(C['--teal'],.5)); g.addColorStop(.35,rgba(C['--teal'],.18)); g.addColorStop(1,rgba(C['--teal'],0));
+    c.fillStyle=g; c.beginPath(); c.arc(cx,cy,R0*3.2*p,0,6.283); c.fill();
+  })(performance.now());
+})();
+
+/* ================= GLOSSAIRE ================= */
+(function(){
+  var G=[[['Blockchain','le registre','Un grand livre de comptes public, copié sur des milliers d\u2019ordinateurs. Chaque page ajoutée s\u2019appelle un bloc.'],['Blockchain','the ledger','A public ledger copied across thousands of computers. Each new page is called a block.']],
+   [['Shard','la caisse','Une partie du réseau qui traite ses propres transactions, en parallèle des autres. MultiversX en compte trois aujourd\u2019hui.'],['Shard','the checkout','A part of the network that processes its own transactions, in parallel with the others. MultiversX has three today.']],
+   [['Metachain','le chef d\u2019orchestre','Le shard spécial qui coordonne les autres et enregistre ce qui passe d\u2019un shard à l\u2019autre.'],['Metachain','the conductor','The special shard that coordinates the others and records what moves between shards.']],
+   [['Finalité','le point de non-retour','Le moment où un paiement ne peut plus être annulé. Sur MultiversX : 100 à 250 ms dans un shard.'],['Finality','the point of no return','The moment a payment can no longer be reversed. On MultiversX: 100 to 250 ms within a shard.']],
+   [['EGLD','le carburant','La monnaie native de MultiversX. Elle paie les frais, sécurise le réseau via le staking et sert à voter.'],['EGLD','the fuel','MultiversX\u2019s native currency. It pays fees, secures the network through staking and is used to vote.']],
+   [['Stablecoin','l\u2019euro numérique','Un jeton qui vaut toujours 1 € ou 1 $, adossé à des réserves. EURXM est celui préparé par xMoney.'],['Stablecoin','the digital euro','A token always worth €1 or $1, backed by reserves. EURXM is the one prepared by xMoney.']],
+   [['Agent IA','le client-machine','Un programme qui accomplit une mission seul : chercher, comparer, payer, dans un budget fixé par un humain.'],['AI agent','the machine customer','A program that completes a mission on its own: search, compare, pay, within a budget set by a human.']],
+   [['x402','le péage du web','Un protocole ouvert : un site répond « paiement requis », l\u2019agent paie quelques centimes, la page s\u2019ouvre.'],['x402','the web toll','An open protocol: a site replies “payment required”, the agent pays a few cents, the page opens.']],
+   [['Burn','la destruction','Une partie des frais est détruite pour toujours. Plus le réseau sert, plus il détruit d\u2019EGLD.'],['Burn','destruction','Part of the fees is destroyed forever. The more the network is used, the more EGLD it destroys.']],
+   [['Staking','la caution','Bloquer ses EGLD pour aider à sécuriser le réseau, en échange de récompenses.'],['Staking','the deposit','Locking your EGLD to help secure the network, in exchange for rewards.']],
+   [['Tokenisation','la numérisation d\u2019un actif','Représenter une action, un fonds ou un euro sous forme de jeton échangeable sur une blockchain.'],['Tokenization','digitizing an asset','Representing a stock, a fund or a euro as a token that can be traded on a blockchain.']],
+   [['MiCA','la règle européenne','Le règlement européen sur les crypto-actifs. Il encadre notamment l\u2019émission de stablecoins.'],['MiCA','the European rule','The EU regulation on crypto-assets. Among other things, it governs stablecoin issuance.']]];
+  var el=document.getElementById('gloss');
+  function build(){ el.innerHTML=''; G.forEach(function(p){ var g=L(p), b=document.createElement('button'); b.type='button'; b.className='gc'; b.setAttribute('aria-label',g[0]+' : '+g[2]);
+    b.innerHTML='<span class="in"><span class="f"><b>'+g[0]+'</b><small>'+g[1]+' ↻</small></span><span class="b">'+g[2]+'</span></span>';
+    b.addEventListener('click',function(){ b.classList.toggle('flip'); }); el.appendChild(b); }); }
+  build(); onLang.push(build);
+})();
+
+/* ================= HORLOGE ================= */
+(function(){ var PER=11.2e12/31536000, k=document.getElementById('clock'); setInterval(function(){ k.textContent=usd(Math.floor((performance.now()-T0)/1000*PER)); }, reduce?1000:100); })();
+
+/* ================= CHAPITRE 1 ================= */
+(function(){
+  var ek=document.getElementById('ekg'), ex=ek.getContext('2d'), EW=0,EH=0, beats=[], head=0, lastBeat=0, vis=true, blockN=0, rate=1000, SPEED=reduce?30:90;
+  function lay(){ var d=Math.min(devicePixelRatio||1,2); EW=ek.clientWidth; EH=ek.clientHeight; ek.width=EW*d; ek.height=EH*d; ex.setTransform(d,0,0,d,0,0); }
+  lay(); addEventListener('resize',lay); for(var b=0;b<8;b++) beats.push(-b*54);
+  function spike(d){ if(d<0||d>=34) return 0; if(d<6) return -d*1.5; if(d<12) return -9-(d-6)*13; if(d<20) return -87+(d-12)*16; if(d<28) return 41-(d-20)*6; return -7+(d-28)*1.2; }
+  var bLine=document.getElementById('beatLine');
+  function stat(){ document.getElementById('rd3v').textContent=LANG==='en'?'≈ 2.4 s':'≈ 2,4 s'; document.getElementById('rd4v').textContent=usd(PRICE);
+    document.getElementById('bOne').textContent='≈ '+usd(FEE*PRICE); var day=rate*86400*FEE; document.getElementById('bDay').textContent=usd(day*PRICE); document.getElementById('bDay').textContent=usd(day*PRICE)+' · '+fr(day,day<10?1:0)+' EGLD';
+    document.querySelector('[data-i=bDayL]').textContent=LANG==='en'?('total fees per day = '+fr(rate)+' tx/s × 86,400 s × 0.00005 EGLD'):('de frais au total par jour = '+fr(rate)+' tx/s × 86 400 s × 0,00005 EGLD');
+    [].forEach.call(document.querySelectorAll('#bRate button'),function(x){ x.textContent=fr(+x.dataset.r); }); }
+  [].forEach.call(document.querySelectorAll('#bRate button'),function(b){ b.addEventListener('click',function(){ rate=+b.dataset.r; [].forEach.call(document.querySelectorAll('#bRate button'),function(x){ x.setAttribute('aria-pressed',x===b); }); stat(); }); });
+  stat(); onLang.push(stat);
+  function onBeat(){ blockN++; var n=Math.max(1,Math.round(rate*.6*(.85+Math.random()*.3))), fee=n*FEE;
+    bLine.innerHTML=(LANG==='en'?'Block #':'Bloc n°')+fr(blockN)+' · <b>'+fr(n)+'</b> '+(LANG==='en'?'transactions':'transactions')+' · '+fr(fee,fee<.01?5:3)+' EGLD '+(LANG==='en'?'in fees':'de frais')+' · <b>≈ '+usd(fee*PRICE)+'</b>'; }
+  visWatch(ek.parentNode,function(v){ vis=v; });
+  (function f(now){ requestAnimationFrame(f); if(!vis) return;
+    if(!lastBeat) lastBeat=now; if(now-lastBeat>=600){ lastBeat=now; beats.push(head); onBeat(); }
+    head+=SPEED/60; if(beats.length>60) beats.shift(); ex.clearRect(0,0,EW,EH);
+    ex.strokeStyle=rgba(C['--rule'],.6); ex.lineWidth=1; for(var gx=-(head%40);gx<EW;gx+=40){ ex.beginPath(); ex.moveTo(gx,0); ex.lineTo(gx,EH); ex.stroke(); }
+    var base=EH*.64, off=head-EW+40, col=C['--teal']; ex.lineWidth=2; ex.strokeStyle=col; if(C.glow){ ex.shadowColor=col; ex.shadowBlur=10; }
+    ex.beginPath(); for(var px=0;px<EW-40;px+=2){ var wx=px+off, yy=base; for(var k=0;k<beats.length;k++){ var s=spike(wx-beats[k]); if(s){ yy=base+s*.9; break; } } if(px===0) ex.moveTo(px,yy); else ex.lineTo(px,yy); }
+    ex.stroke(); ex.shadowBlur=0; ex.fillStyle=col; ex.beginPath(); ex.arc(EW-40,base,4,0,6.283); ex.fill(); })(performance.now());
+  // course : un paiement en boucle
+  var per=[2*86400,86400,2,.6], t0=null, rv=false, race=document.querySelector('.race'), vd=document.getElementById('verdict');
+  function lbl(i,n){ var w=LANG==='en'?(i===2?'authorized':'settled'):(i===2?'autorisé':'réglé'); return fr(n)+' '+w+(n>1&&LANG==='fr'?'s':''); }
+  function left(sec){ var h=Math.floor(sec/3600), m=Math.floor(sec%3600/60); var s=h>=24?Math.floor(h/24)+(LANG==='en'?' d ':' j ')+(h%24)+' h':h+' h '+(m<10?'0':'')+m; return (LANG==='en'?'still ':'encore ')+s; }
+  visWatch(race,function(v){ rv=v; if(v&&t0===null) t0=performance.now(); });
+  (function f(now){ requestAnimationFrame(f); if(!rv||t0===null) return; var s=(now-t0)/1000;
+    per.forEach(function(p,i){ var n=Math.floor(s/p); document.getElementById('r'+i).style.width=((s%p)/p*100)+'%'; document.getElementById('t'+i).textContent=n>0?lbl(i,n):(p>60?left(p-s):'…'); });
+    var nx=Math.floor(s/.6); vd.textContent=nx>0?(LANG==='en'?'While the SEPA transfer is still waiting, MultiversX has already settled '+fr(nx)+' payment'+(nx>1?'s':'')+'.':'Pendant que le virement SEPA attend encore, MultiversX a déjà réglé '+fr(nx)+' paiement'+(nx>1?'s':'')+'.'):''; })(performance.now());
+  // télémétrie
+  var P=document.getElementById('sgP'),Q=document.getElementById('sgQ'),Cc=document.getElementById('sgC'),B=document.getElementById('sgB'),cur=document.getElementById('rcur'),hist=document.getElementById('rhist'),rN=document.getElementById('rN'),rF=document.getElementById('rF'),rA=document.getElementById('rA'),rM=document.getElementById('rM');
+  var n=0, r=null, rt=0, lastF=[], tv=false, bars=[];
+  for(var i=0;i<20;i++){ var bb=document.createElement('i'); bb.style.height='0'; hist.appendChild(bb); bars.push(bb); }
+  function rnd(a,b){ return a+Math.random()*(b-a); }
+  function newRound(now){ n++; rt=now; r={p:rnd(75,115),q:rnd(50,90),c:rnd(15,30)}; r.f=r.p+r.q+r.c; P.style.width=(r.p/6)+'%'; Q.style.width=(r.q/6)+'%'; Cc.style.width=(r.c/6)+'%'; B.style.width=((600-r.f)/6)+'%'; [P,Q,Cc,B].forEach(function(x){ x.classList.remove('on'); }); rN.textContent='#'+fr(n); rF.textContent='…'; rM.textContent='…'; }
+  visWatch(hist,function(v){ tv=v; });
+  (function loop(now){ requestAnimationFrame(loop); if(!tv) return; if(!r||now-rt>=600) newRound(now); var e=now-rt; cur.style.left=(e/6)+'%';
+    P.classList.toggle('on',e>0); Q.classList.toggle('on',e>r.p); Cc.classList.toggle('on',e>r.p+r.q); B.classList.toggle('on',e>r.f);
+    if(e>=r.f&&rF.textContent==='…'){ rF.textContent=fr(Math.round(r.f))+' ms'; rM.textContent=fr(Math.round(600-r.f))+' ms'; lastF.push(r.f); if(lastF.length>20) lastF.shift();
+      rA.textContent=fr(Math.round(lastF.reduce(function(a,b){return a+b;},0)/lastF.length))+' ms'; bars.forEach(function(b,i){ var v=lastF[lastF.length-20+i]; b.style.height=v?(v/300*100)+'%':'0'; }); } })(performance.now());
+})();
+
+/* ================= CHAPITRE 2 : LA MACHINE EN COUCHES ================= */
+(function(){
+function M(fr,en){ return ['you','agent',[fr,en],['xPortal','AP2'],0,'mandat']; }
+var UC=[
+ {os:'MachineOS',t:['Un week-end à Lisbonne','A weekend in Lisbon'],s:['Vol et hôtel sous budget, réservés depuis la conversation.','Flight and hotel within budget, booked from the chat.'],g:['« Deux nuits, moins de 600 €. »','“Two nights, under €600.”'],lab:{you:[['Vous','voyageur'],['You','traveller']],agent:[['Votre agent','identité MX-8004'],['Your agent','MX-8004 identity']],serv:[['Tarifs','API payantes'],['Fares','paid APIs']],shop:[['Hôtel, vol','marchands'],['Hotel, flight','merchants']]},steps:[
+  M('Vous fixez un budget de 600 € dans xPortal : votre agent reçoit un mandat.','You set a €600 budget in xPortal: your agent receives a mandate.'),
+  ['agent','serv',['L\u2019agent interroge dix API de tarifs et paie chaque réponse.','The agent queries ten fare APIs and pays for each answer.'],['x402'],.03,'chain'],
+  ['agent','shop',['Il réserve vol et hôtel depuis la conversation et paie par carte.','It books flight and hotel from the chat and pays by card.'],['ACP','xMoney'],540,'carte'],
+  ['agent','you',['Itinéraire et reçus reviennent, vérifiables contre le mandat.','Itinerary and receipts come back, checkable against the mandate.'],['xPortal','MX-8004'],0,'info',['reçus vérifiables','verifiable receipts']]]},
+ {os:'MachineOS',t:['Ma voiture se recharge seule','My car charges itself'],s:['Elle paie la borne au kWh, puis le parking.','It pays the charger per kWh, then the parking.'],g:['« Sois chargée à 80 % pour 8 h. »','“Be at 80% by 8 a.m.”'],lab:{you:[['Vous','conductrice'],['You','driver']],agent:[['La voiture','agent embarqué'],['The car','onboard agent']],serv:[['Borne','au kWh'],['Charger','per kWh']],shop:[['Parking','à la minute'],['Parking','per minute']]},steps:[
+  M('Objectif fixé dans xPortal : 80 % à 8 h, au meilleur prix.','Goal set in xPortal: 80% by 8 a.m., at the best price.'),
+  ['agent','serv',['La voiture paie la recharge par tranche de kWh.','The car pays for charging kWh by kWh.'],['x402'],.42,'chain'],
+  ['agent','shop',['Elle règle le parking en partant, par carte.','It pays for parking on the way out, by card.'],['xMoney'],.9,'carte'],
+  ['agent','you',['Le récapitulatif apparaît dans xPortal.','The summary shows up in xPortal.'],['xPortal'],0,'info',['solde mis à jour','balance updated']]]},
+ {os:'MachineOS',t:['Lire la presse au centime','News by the cent'],s:['Votre veille achète l\u2019article, pas l\u2019abonnement.','Your news agent buys the article, not the subscription.'],g:['« Résume-moi ce qui compte ce matin. »','“Summarize what matters this morning.”'],lab:{you:[['Vous','lecteur'],['You','reader']],agent:[['Votre agent','veille'],['Your agent','news watch']],serv:[['Éditeur','articles'],['Publisher','articles']],shop:[['Auteur','journaliste'],['Author','journalist']]},steps:[
+  M('Budget presse : 5 € par mois.','News budget: €5 a month.'),
+  ['agent','serv',['Le site répond « paiement requis » : l\u2019agent paie l\u2019article.','The site replies “payment required”: the agent pays for the article.'],['x402'],.12,'chain'],
+  ['serv','shop',['Un contrat reverse automatiquement la part de l\u2019auteur.','A contract automatically pays the author\u2019s share.'],['Smart contract'],.03,'chain'],
+  ['agent','you',['Votre revue de presse arrive, sources payées.','Your briefing arrives, sources paid.'],['xPortal'],0,'info',['dépenses visibles','spending visible']]]},
+ {os:'MachineOS',t:['Le web payé par les robots','The web, paid by robots'],s:['Un agent de recherche paie chaque page qu\u2019il lit.','A research agent pays for every page it reads.'],g:['« Trouve les meilleures sources sur ce sujet. »','“Find the best sources on this topic.”'],lab:{you:[['Vous','chercheur'],['You','researcher']],agent:[['Agent','recherche'],['Agent','research']],serv:[['Site web','contenu'],['Website','content']],shop:[['Hébergeur','infrastructure'],['Host','infrastructure']]},steps:[
+  M('Question posée, budget de 1 €.','Question asked, €1 budget.'),
+  ['agent','serv',['Le site répond « paiement requis » : la page est payée.','The site replies “payment required”: the page is paid for.'],['x402'],.001,'chain'],
+  ['serv','shop',['Le site paie sa bande passante au même rythme.','The site pays for its bandwidth at the same pace.'],['x402'],.0002,'chain'],
+  ['agent','you',['Réponse sourcée, créateurs rémunérés.','Sourced answer, creators paid.'],['MX-8004'],0,'info',['sources traçables','traceable sources']]]},
+ {os:'MachineOS',t:['Une équipe d\u2019agents freelance','A team of freelance agents'],s:['Un agent chef de projet recrute et paie des sous-agents.','A project-lead agent hires and pays sub-agents.'],g:['« Traduis ce guide en trois langues. »','“Translate this guide into three languages.”'],lab:{you:[['Vous','client'],['You','client']],agent:[['Chef de projet','agent'],['Project lead','agent']],serv:[['Traducteurs','sous-agents'],['Translators','sub-agents']],shop:[['Illustrateur','sous-agent'],['Illustrator','sub-agent']]},steps:[
+  M('Mission et budget : 90 €.','Mission and budget: €90.'),
+  ['agent','serv',['Il choisit trois traducteurs sur leur réputation on-chain.','It picks three translators by their on-chain reputation.'],['MX-8004'],0,'info',['réputation lue','reputation read']],
+  ['agent','serv',['Il paie chaque page livrée.','It pays for each delivered page.'],['x402'],.9,'chain'],
+  ['agent','shop',['Il paie les illustrations validées.','It pays for approved illustrations.'],['x402'],6,'chain']]},
+ {os:'MachineOS',t:['Des capteurs qui vendent la météo','Sensors that sell the weather'],s:['Chaque sonde agricole revend sa mesure locale.','Each farm sensor resells its local reading.'],g:['« Irrigue seulement s\u2019il ne pleut pas demain. »','“Irrigate only if it won\u2019t rain tomorrow.”'],lab:{you:[['Agricultrice','exploitation'],['Farmer','farm']],agent:[['Son agent','irrigation'],['Her agent','irrigation']],serv:[['Sondes','voisines'],['Sensors','nearby']],shop:[['Prévision','service météo'],['Forecast','weather service']]},steps:[
+  M('Consigne : économiser l\u2019eau.','Instruction: save water.'),
+  ['agent','serv',['Douze sondes voisines sont payées pour leurs mesures.','Twelve nearby sensors are paid for their readings.'],['x402'],.024,'chain'],
+  ['agent','shop',['Une prévision hyperlocale est achetée.','A hyperlocal forecast is bought.'],['x402'],.05,'chain'],
+  ['agent','you',['Irrigation reportée : il pleuvra à 6 h.','Irrigation postponed: rain at 6 a.m.'],['xPortal'],0,'info',['décision tracée','decision logged']]]},
+ {os:'MachineOS',t:['Entraîner un modèle cette nuit','Train a model overnight'],s:['Du calcul payé à la minute, coupé dès que c\u2019est fini.','Compute paid by the minute, cut as soon as it\u2019s done.'],g:['« Lance l\u2019entraînement quand le calcul est le moins cher. »','“Start training when compute is cheapest.”'],lab:{you:[['Vous','chercheuse'],['You','researcher']],agent:[['Votre agent','orchestrateur'],['Your agent','orchestrator']],serv:[['GPU','fournisseurs'],['GPU','providers']],shop:[['Données','jeux de données'],['Data','datasets']]},steps:[
+  M('Budget de calcul, échéance demain 7 h.','Compute budget, deadline 7 a.m. tomorrow.'),
+  ['agent','shop',['Il achète un jeu de données par lot.','It buys a dataset in batches.'],['x402'],4,'chain'],
+  ['agent','serv',['Il paie le calcul à la minute, en continu.','It pays for compute by the minute, continuously.'],['x402','Tokenized compute'],18,'chain'],
+  ['agent','you',['Au réveil : le modèle et la facture ligne à ligne.','In the morning: the model and a line-by-line bill.'],['xPortal'],0,'info',['facture vérifiable','verifiable bill']]]},
+ {os:'BrandOS',t:['La récompense dans le checkout','The reward inside checkout'],s:['L\u2019app encaisse, garde le solde et verse la récompense.','The app takes the payment, holds the balance and pays the reward.'],g:['« Une pizza, la dixième offerte. »','“One pizza, the tenth is free.”'],lab:{you:[['Vous','client'],['You','customer']],agent:[['L\u2019app','de la marque'],['The app','of the brand']],serv:[['Restaurant','franchisé'],['Restaurant','franchisee']],shop:[['Fidélité','programme'],['Loyalty','programme']]},steps:[
+  ['you','agent',['Vous payez dans l\u2019app de la marque, par carte.','You pay in the brand\u2019s app, by card.'],['xMoney'],14,'carte'],
+  ['agent','serv',['Le franchisé est payé par virement SEPA.','The franchisee is paid by SEPA transfer.'],['xMoney','SEPA'],14,'sepa'],
+  ['agent','shop',['Des points de fidélité sont émis sous forme de jetons.','Loyalty points are issued as tokens.'],['ESDT'],.7,'chain'],
+  ['shop','you',['La récompense apparaît dans votre solde.','The reward shows up in your balance.'],['xPortal'],0,'info',['solde mis à jour','balance updated']]]},
+ {os:'BrandOS',t:['Des droits d\u2019auteur à la minute','Royalties by the minute'],s:['Chaque minute écoutée paie les co-auteurs.','Every minute played pays the co-writers.'],g:['« Joue quelque chose de calme. »','“Play something calm.”'],lab:{you:[['Vous','auditeur'],['You','listener']],agent:[['Lecteur','agent audio'],['Player','audio agent']],serv:[['Artiste','titre'],['Artist','track']],shop:[['Co-auteurs','partage'],['Co-writers','split']]},steps:[
+  M('Enveloppe musique : 8 € par mois.','Music budget: €8 a month.'),
+  ['agent','serv',['Chaque minute écoutée est payée.','Every minute played is paid for.'],['x402'],.004,'chain'],
+  ['serv','shop',['Un contrat répartit entre trois co-auteurs.','A contract splits it between three co-writers.'],['Smart contract'],.004,'chain'],
+  ['agent','you',['L\u2019historique d\u2019écoute et de paiement est dans xPortal.','Listening and payment history lives in xPortal.'],['xPortal'],0,'info',['paiements traçables','traceable payments']]]},
+ {os:'BrandOS',t:['Réapprovisionner une boutique','Restocking a shop'],s:['Un stock qui ne tombe jamais à zéro, payé en euros numériques.','Stock that never runs out, paid in digital euros.'],g:['« Garde le café au-dessus de 20 kg. »','“Keep coffee above 20 kg.”'],lab:{you:[['Commerçante','boutique'],['Shop owner','store']],agent:[['Son agent','achats'],['Her agent','purchasing']],serv:[['Grossiste','offres'],['Wholesaler','offers']],shop:[['Transporteur','livraison'],['Carrier','delivery']]},steps:[
+  M('Plafond mensuel délégué à l\u2019agent.','Monthly cap delegated to the agent.'),
+  ['agent','serv',['La commande est payée en euros numériques régulés.','The order is paid in regulated digital euros.'],['UCP','EURXM'],186,'eurxm'],
+  ['agent','shop',['Le transporteur est payé à la livraison.','The carrier is paid on delivery.'],['x402'],12,'chain'],
+  ['agent','you',['Stock et dépenses sont suivis dans xPortal.','Stock and spending are tracked in xPortal.'],['xPortal'],0,'info',['comptes à jour','books up to date']]]},
+ {os:'MarketOS',t:['Une action à 2 h un dimanche','A stock at 2 a.m. on a Sunday'],s:['Des marchés qui ne ferment jamais.','Markets that never close.'],g:['« Achète dès que le prix passe sous 140 $. »','“Buy as soon as the price drops below $140.”'],lab:{you:[['Vous','investisseur'],['You','investor']],agent:[['Votre ordre','programmé'],['Your order','programmed']],serv:[['Action','tokenisée'],['Stock','tokenized']],shop:[['Courtier','partenaire'],['Broker','partner']]},steps:[
+  M('Ordre programmé depuis xPortal.','Order programmed from xPortal.'),
+  ['agent','serv',['Dimanche, 2 h : le prix passe sous le seuil, l\u2019ordre s\u2019exécute.','Sunday, 2 a.m.: the price crosses the threshold, the order executes.'],['Tokenized asset'],138,'chain'],
+  ['agent','shop',['Les frais du courtier sont réglés au même instant.','The broker\u2019s fee is settled at the same moment.'],['x402'],.5,'chain'],
+  ['agent','you',['Le titre apparaît dans votre solde.','The share shows up in your balance.'],['xPortal','ESDT'],0,'info',['titre livré','share delivered']]]},
+ {os:'MarketOS',t:['Une trésorerie qui ne dort jamais','A treasury that never sleeps'],s:['L\u2019excédent placé la nuit, rappelé au matin.','Surplus invested overnight, recalled in the morning.'],g:['« Place l\u2019excédent, garde 5 000 € disponibles. »','“Invest the surplus, keep €5,000 available.”'],lab:{you:[['L\u2019entreprise','direction financière'],['The company','finance team']],agent:[['Agent trésorerie','règles'],['Treasury agent','rules']],serv:[['Fonds monétaire','tokenisé'],['Money market fund','tokenized']],shop:[['Fournisseur','factures'],['Supplier','invoices']]},steps:[
+  M('Règle : 5 000 € toujours disponibles.','Rule: €5,000 always available.'),
+  ['agent','serv',['Le soir, l\u2019excédent part vers un fonds monétaire tokenisé.','In the evening, the surplus goes to a tokenized money market fund.'],['EURXM','Tokenized fund'],20000,'eurxm'],
+  ['serv','agent',['Au matin, une partie revient pour une facture.','In the morning, part of it comes back for an invoice.'],['EURXM','Tokenized fund'],3200,'eurxm'],
+  ['agent','shop',['Le fournisseur est payé par virement SEPA.','The supplier is paid by SEPA transfer.'],['xMoney','SEPA'],3200,'sepa']]},
+ {os:'MarketOS',t:['Un marché local de l\u2019énergie','A local energy market'],s:['Le surplus solaire vendu au voisin, au kWh.','Solar surplus sold to the neighbour, per kWh.'],g:['« Vends le surplus, garde 20 % pour ce soir. »','“Sell the surplus, keep 20% for tonight.”'],lab:{you:[['Vous','producteur'],['You','producer']],agent:[['Compteur','agent énergie'],['Meter','energy agent']],serv:[['Voisin','acheteur'],['Neighbour','buyer']],shop:[['Réseau','opérateur'],['Grid','operator']]},steps:[
+  M('Seuil : garder 20 % de batterie.','Threshold: keep 20% battery.'),
+  ['serv','agent',['Un voisin achète 0,3 kWh en euros numériques.','A neighbour buys 0.3 kWh in digital euros.'],['x402','EURXM'],.05,'eurxm'],
+  ['agent','shop',['Le réseau est payé pour l\u2019acheminement.','The grid is paid for delivery.'],['x402'],.004,'chain'],
+  ['agent','you',['Les revenus du jour apparaissent dans xPortal.','The day\u2019s income shows up in xPortal.'],['xPortal'],0,'info',['revenus visibles','income visible']]]}
+];
+function isV(t){ return /EURXM|Tokenized/.test(t); }
+function tagName(t){ var m={'Tokenized compute':['Calcul tokenisé','Tokenized compute'],'Tokenized asset':['Actif tokenisé','Tokenized asset'],'Tokenized fund':['Fonds tokenisé','Tokenized fund']}; return m[t]?L(m[t]):t; }
+var NS='http://www.w3.org/2000/svg', svg=document.getElementById('stage');
+function el(t,a,p){ var e=document.createElementNS(NS,t); for(var k in a) e.setAttribute(k,a[k]); if(p) p.appendChild(e); return e; }
+var LANES={p:{y:62,n:'xPortal',s:['l\u2019app · le mandat · le solde','app · mandate · balance']},m:{y:174,n:'xMoney',s:['cartes · SEPA · licence régulée','cards · SEPA · regulated licence']},c:{y:286,n:'MultiversX',s:['le registre · règlement en 600 ms','the ledger · settlement in 600 ms']}};
+var LH=98, LX0=190, LPY=64, LX1=510, ACT={you:{x:78,y:112},agent:{x:78,y:334},serv:{x:622,y:112},shop:{x:622,y:334}};
+el('rect',{x:170,y:26,width:360,height:376,rx:18,'class':'fc-frame'},svg);
+var fcT=el('text',{x:350,y:50,'text-anchor':'middle','class':'fc-t'},svg); fcT.textContent='THE FINANCE COMPUTER';
+var laneEls={};
+Object.keys(LANES).forEach(function(k){ var l=LANES[k], g=el('g',{},svg);
+  var r=el('rect',{x:LX0,y:l.y,width:LX1-LX0,height:LH,rx:14,'class':'lane-r '+k},g);
+  var t=el('text',{x:LX0+16,y:l.y+26,'class':'lane-t'},g); t.textContent=l.n;
+  var s=el('text',{x:LX0+16,y:l.y+44,'class':'lane-s'},g);
+  var cap=el('text',{x:LX1-16,y:l.y+LH-12,'text-anchor':'end','class':'lane-cap'},g);
+  laneEls[k]={r:r,s:s,cap:cap}; });
+// blocs qui défilent dans le registre, un toutes les 600 ms
+var clip=el('clipPath',{id:'bclip'},svg); el('rect',{x:LX0+14,y:LANES.c.y+74,width:104,height:16},clip);
+var bg=el('g',{'clip-path':'url(#bclip)'},svg), bRow=el('g',{},bg);
+for(var i=0;i<9;i++) el('rect',{x:LX0+14+i*20,y:LANES.c.y+76,width:14,height:12,rx:3,'class':'blk'},bRow);
+var boff=0; setInterval(function(){ if(reduce) return; boff=(boff+1)%1; bRow.animate&&bRow.animate([{transform:'translateX(0)'},{transform:'translateX(-20px)'}],{duration:600,easing:'linear'}); },600);
+var rings={}, L1={}, L2={}, gP=el('g',{},svg);
+Object.keys(ACT).forEach(function(k){ var a=ACT[k], g=el('g',{},svg);
+  rings[k]=el('circle',{cx:a.x,cy:a.y,r:30,'class':'act'},g); el('circle',{cx:a.x,cy:a.y,r:k==='agent'?9:6,fill:k==='agent'?'var(--ink)':'var(--ink-2)'},g);
+  L1[k]=el('text',{x:a.x,y:a.y+50,'text-anchor':'middle','class':'albl'},g); L2[k]=el('text',{x:a.x,y:a.y+66,'text-anchor':'middle','class':'asub'},g); });
+svg.appendChild(gP);
+function laneText(){ Object.keys(LANES).forEach(function(k){ laneEls[k].s.textContent=L(LANES[k].s); }); svg.setAttribute('aria-label',LANG==='en'?'Each flow crosses the layers of the Finance Computer: xPortal, xMoney, MultiversX':'Chaque flux traverse les couches du Finance Computer : xPortal, xMoney, MultiversX'); }
+laneText();
+var CAP={mandat:['mandat signé (AP2)','mandate signed (AP2)'],chain:['réglé · 600 ms','settled · 600 ms'],carte:['paiement par carte','card payment'],sepa:['virement SEPA','SEPA transfer'],eurxm:['euro numérique · à venir','digital euro · coming'],ledger:['même solde mis à jour','same balance updated']};
+function lit(k,on,cap){ laneEls[k].r.classList.toggle('lit',on); laneEls[k].cap.textContent=on&&cap?cap:''; }
+function clearLanes(){ ['p','m','c'].forEach(function(k){ lit(k,false); }); }
+function laneFor(kind){ return kind==='mandat'?'p':(kind==='carte'||kind==='sepa'||kind==='eurxm')?'m':'c'; }
+function pathPts(A,B,ly){ var ex=A.x<350?LX0:LX1, ox=B.x<350?LX0:LX1, pts=[{x:A.x,y:A.y},{x:ex,y:ly}]; if(ex===ox) pts.push({x:350,y:ly}); pts.push({x:ox,y:ly}); pts.push({x:B.x,y:B.y}); return pts; }
+function move(pts,dur,col,amt,dashed,done,mid){
+  var segs=[],tot=0; for(var i=1;i<pts.length;i++){ var d=Math.hypot(pts[i].x-pts[i-1].x,pts[i].y-pts[i-1].y); segs.push(d); tot+=d; }
+  var trail=el('polyline',{points:pts[0].x+','+pts[0].y,fill:'none',stroke:col,'stroke-width':3,'stroke-linecap':'round','stroke-linejoin':'round',opacity:.8,'stroke-dasharray':dashed?'6 6':'none'},gP);
+  var dot=el('circle',{r:8,fill:col,cx:pts[0].x,cy:pts[0].y},gP), tx=null, midFired=false;
+  if(amt){ tx=el('text',{'class':'amt','text-anchor':'middle'},gP); tx.textContent=eur(amt); }
+  var t0=performance.now();
+  (function st(now){ var t=Math.min(1,(now-t0)/dur), e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2, d=e*tot, acc=0, seen=[pts[0]], pos=pts[0];
+    for(var i=0;i<segs.length;i++){ if(d<=acc+segs[i]){ var f=segs[i]?(d-acc)/segs[i]:0; pos={x:pts[i].x+(pts[i+1].x-pts[i].x)*f,y:pts[i].y+(pts[i+1].y-pts[i].y)*f}; break; } acc+=segs[i]; seen.push(pts[i+1]); pos=pts[i+1]; }
+    trail.setAttribute('points',seen.concat([pos]).map(function(p){ return p.x+','+p.y; }).join(' '));
+    dot.setAttribute('cx',pos.x); dot.setAttribute('cy',pos.y); if(tx){ tx.setAttribute('x',pos.x); tx.setAttribute('y',pos.y-14); }
+    if(!midFired&&e>.45){ midFired=true; mid&&mid(); }
+    if(t<1) requestAnimationFrame(st); else { [dot,tx].forEach(function(n){ if(n&&n.parentNode) gP.removeChild(n); }); if(trail.animate) trail.animate([{opacity:.8},{opacity:0}],{duration:700,fill:'forwards'}); setTimeout(function(){ if(trail.parentNode) gP.removeChild(trail); },750); done&&done(); } })(t0);
+}
+var started=false, cur=0, timers=[], sP=document.getElementById('sP'), sV=document.getElementById('sV'), sT=document.getElementById('sT'), sO=document.getElementById('sO'), osCur='MachineOS', cEl=document.getElementById('cards');
+function flow(s,after){
+  var kind=s[5], lk=laneFor(kind), v=s[3].some(isV), col=lk==='c'?'var(--teal)':'var(--ink)', A=ACT[s[0]], B=ACT[s[1]], ly=LANES[lk].y+LPY, dur=reduce?10:2000;
+  rings[s[0]].classList.add('hot');
+  move(pathPts(A,B,ly),dur,col,s[4],v,function(){ rings[s[0]].classList.remove('hot'); rings[s[1]].classList.add('hot'); setTimeout(function(){ rings[s[1]].classList.remove('hot'); },600); },function(){
+    var cap=s[6]?L(s[6]):L(CAP[kind]);
+    if(lk==='p'){ lit('p',true,cap); }
+    if(lk==='m'){ lit('m',true,cap); if(s[3].indexOf('xPortal')>-1) lit('p',true,'');
+      // tout mouvement xMoney se résout dans le même registre
+      move([{x:350,y:ly},{x:350,y:LANES.c.y+LPY}],reduce?10:500,'var(--teal)',0,v,null,function(){ lit('c',true,kind==='eurxm'?L(CAP.chain):L(CAP.ledger)); }); }
+    if(lk==='c'){ lit('c',true,cap); if(kind==='info'&&s[3].indexOf('xPortal')>-1) lit('p',true,''); }
+    blip(1100,.04,.12); after&&after(); });
+}
+function setLabels(u){ Object.keys(ACT).forEach(function(k){ var p=L(u.lab[k]); L1[k].textContent=p[0]; L2[k].textContent=p[1]; }); document.getElementById('lT').textContent=L(u.t); document.getElementById('lG').textContent=L(u.g); }
+var KL={mandat:'xPortal',chain:'MultiversX',carte:'xMoney',sepa:'xMoney',eurxm:'xMoney + MultiversX',info:'MultiversX'};
+function buildCards(){ cEl.innerHTML=''; UC.forEach(function(u,i){ var vv=u.steps.some(function(s){ return s[3].some(isV); }); u.v=vv;
+  var b=document.createElement('button'); b.className='uc'+(u.os!==osCur?' hide':''); b.type='button'; b.setAttribute('aria-pressed',i===cur&&started?'true':'false');
+  b.innerHTML='<span class="num">'+(i<9?'0':'')+(i+1)+'</span><h3>'+L(u.t)+'</h3><p>'+L(u.s)+'</p><span class="meta"><span class="sec">'+u.os+'</span><span class="st '+(vv?'v':'ok')+'">'+(vv?(LANG==='en'?'Coming piece':'Brique à venir'):(LANG==='en'?'Live stack':'Pile actuelle'))+'</span></span>';
+  b.addEventListener('click',function(){ run(i); document.getElementById('theatre').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); }); cEl.appendChild(b); }); }
+function filterOS(os){ osCur=os; [].forEach.call(document.querySelectorAll('.osb'),function(b){ b.setAttribute('aria-pressed',b.dataset.os===os); }); [].forEach.call(cEl.children,function(c,i){ c.classList.toggle('hide',UC[i].os!==os); }); }
+[].forEach.call(document.querySelectorAll('.osb'),function(b){ b.addEventListener('click',function(){ filterOS(b.dataset.os); run(UC.findIndex(function(u){ return u.os===b.dataset.os; })); }); });
+function clearRun(){ timers.forEach(clearTimeout); timers=[]; while(gP.firstChild) gP.removeChild(gP.firstChild); Object.keys(rings).forEach(function(k){ rings[k].classList.remove('hot'); }); clearLanes(); }
+function listSteps(u,active){ var ol=document.getElementById('lS'); ol.innerHTML=''; return u.steps.map(function(s){ var v=s[3].some(isV), li=document.createElement('li'); if(v) li.className='v';
+  li.innerHTML='<i></i><div><p>'+L(s[2])+'</p><span class="tag via">via '+KL[s[5]]+'</span>'+s[3].map(function(t){ var vv=isV(t); return '<span class="tag'+(vv?' v':'')+'">'+tagName(t)+(vv?(LANG==='en'?' · coming':' · à venir'):'')+'</span>'; }).join('')+'</div>';
+  if(!active) li.classList.add('in'); ol.appendChild(li); return li; }); }
+function run(i){
+  started=true; clearRun(); cur=i; var u=UC[i]; if(u.os!==osCur) filterOS(u.os);
+  [].forEach.call(cEl.children,function(c,j){ c.setAttribute('aria-pressed',j===i); }); setLabels(u);
+  var lis=listSteps(u,true), pays=0,tot=0,chain=0,xm=0, gap=reduce?400:3400;
+  sP.textContent='0'; sV.textContent=eur(0); sT.textContent='0'; sO.textContent='0';
+  u.steps.forEach(function(s,k){ timers.push(setTimeout(function(){ clearLanes(); lis.forEach(function(x){ x.classList.remove('now'); }); lis[k].classList.add('in','now');
+    flow(s,function(){ if(s[4]){ pays++; tot+=s[4]; } if(s[5]==='chain'||s[5]==='eurxm') chain++; if(s[5]==='carte'||s[5]==='sepa'||s[5]==='eurxm') xm++;
+      sP.textContent=fr(pays); sV.textContent=eur(tot); sT.textContent=fr(chain); sO.textContent=fr(xm); }); },300+k*gap)); });
+  timers.push(setTimeout(clearLanes,300+u.steps.length*gap));
+}
+document.getElementById('replay').addEventListener('click',function(){ run(cur); });
+buildCards(); filterOS('MachineOS'); setLabels(UC[0]); listSteps(UC[0],false);
+onLang.push(function(){ laneText(); buildCards(); filterOS(osCur); setLabels(UC[cur]); if(started) run(cur); else listSteps(UC[cur],false); });
+visWatch(document.getElementById('stage'),function(v){ if(v&&!started) run(0); },.3);
+})();
+
+/* ================= CHAPITRE 3 : LA MACHINE ================= */
+(function(){
+  var comp=document.getElementById('compose'), cb=document.getElementById('compBtn');
+  function cbText(){ cb.textContent=comp.classList.contains('on')?T('decompose'):T('compose'); }
+  cb.addEventListener('click',function(){ comp.classList.toggle('on'); cbText(); }); cbText(); onLang.push(cbText);
+  visWatch(comp,function(v){ if(v&&!reduce&&!comp.dataset.done){ comp.dataset.done=1; setTimeout(function(){ comp.classList.add('on'); cbText(); },900); } },.6);
+  var LY=[[['Marques et apps','Vous, votre entreprise ou votre agent',['Beaucoup de marques, beaucoup d\u2019apps, un seul ordinateur. Chacune lit, programme et agit sur le même état.','C\u2019est ici que vivent BrandOS, MarketOS et MachineOS.']],['Brands and apps','You, your company or your agent',['Many brands, many apps, one computer. Each reads, programs and acts on the same state.','This is where BrandOS, MarketOS and MachineOS live.']]],
+   [['Logique produit','xPortal',['Portefeuille, valeur stockée, fidélité, récompenses, quêtes et plafonds.','C\u2019est là que l\u2019humain fixe le mandat de son agent.']],['Product logic','xPortal',['Wallet, stored value, loyalty, rewards, quests and limits.','This is where a human sets their agent\u2019s mandate.']]],
+   [['Les rails','xMoney + MultiversX',['SEPA, SWIFT, Visa, Mastercard et corridors en stablecoins.','Le même paiement peut partir sur une carte et se régler on-chain.']],['The rails','xMoney + MultiversX',['SEPA, SWIFT, Visa, Mastercard and stablecoin corridors.','The same payment can leave on a card and settle on-chain.']]],
+   [['La licence','xMoney',['Établissement de monnaie électronique, acquisition et émission de cartes, prestataire d\u2019actifs numériques enregistré.','La couche qui rend tout le reste utilisable par une entreprise régulée.']],['The licence','xMoney',['E-money institution, card acquiring and issuing, registered virtual asset provider.','The layer that makes everything else usable by a regulated business.']]],
+   [['Le registre','MultiversX',['Un seul solde canonique. Tout ce qui est au-dessus s\u2019y résout.','600 ms par bloc depuis Supernova, et une architecture en shards qui s\u2019étend en ajoutant des shards.']],['The ledger','MultiversX',['One canonical balance. Everything above resolves here.','600 ms per block since Supernova, and a sharded architecture that grows by adding shards.']]]];
+  var ld=document.getElementById('ldet'), lb=[].slice.call(document.querySelectorAll('.layer')), sel=4;
+  function show(i){ sel=i; lb.forEach(function(b,j){ b.setAttribute('aria-pressed',i===j); }); var l=L(LY[i]); ld.innerHTML='<h3>'+l[0]+'</h3><p class="who">'+l[1]+'</p>'+l[2].map(function(x){ return '<p>'+x+'</p>'; }).join(''); }
+  lb.forEach(function(b,i){ b.addEventListener('click',function(){ show(i); }); }); show(4); onLang.push(function(){ show(sel); });
+  // impulsion qui descend les couches, un pas toutes les 600 ms
+  var k=0, lv=false; visWatch(document.getElementById('layers'),function(v){ lv=v; });
+  setInterval(function(){ if(!lv||reduce) return; lb.forEach(function(b,j){ b.classList.toggle('pulse',j===k); }); k=(k+1)%(lb.length+2); },600);
+})();
+
+/* ================= JEU DE L'ADOPTION + RÉSEAU ================= */
+(function(){
+  var cv=document.getElementById('net2'), ctx=cv.getContext('2d'), W=0,H=0;
+  var V0=1e9, VMAX=131.5e12, LS=Math.log(VMAX/V0), adopt=0, adoptT=0, agents=[], pulses=[], nS=3, last=0, vis=false;
+  var LV=[{v:1e9,n:['Départ','Start'],d:['les premiers agents (fictif)','the first agents (fictional)']},
+   {v:10.6e12,n:['Mastercard','Mastercard'],d:['tout le réseau en un an','the whole network in a year'],m:['Palier 1 : autant d\u2019argent que tout Mastercard en un an.','Milestone 1: as much money as all of Mastercard in a year.']},
+   {v:11.2e12,n:['Stablecoins','Stablecoins'],d:['tous ceux échangés en 2025','all traded in 2025'],m:['Palier 2 : autant que tous les stablecoins du monde en 2025.','Milestone 2: as much as all stablecoins worldwide in 2025.']},
+   {v:16.7e12,n:['Visa','Visa'],d:['tout le réseau en un an','the whole network in a year'],m:['Palier 3 : autant que tout le réseau Visa en un an.','Milestone 3: as much as the entire Visa network in a year.']},
+   {v:93e12,n:['ACH','ACH'],d:['tous les virements américains','all US bank transfers'],m:['Palier 4 : autant que tous les virements ACH des États-Unis.','Milestone 4: as much as all US ACH transfers.']},
+   {v:131.5e12,n:['Les 4 réseaux','All 4 networks'],d:['le cumul (indicatif)','combined (indicative)'],m:['Palier 5 : l\u2019équivalent des quatre géants réunis passe par une seule machine.','Milestone 5: the equivalent of all four giants runs through one machine.']}];
+  function tOf(v){ return Math.log(v/V0)/LS; }
+  var lvEl=document.getElementById('levels'), passed={0:1};
+  function build(){ lvEl.innerHTML=''; LV.forEach(function(l,i){ var li=document.createElement('li'), b=document.createElement('button'); b.type='button'; b.className='lv';
+    b.innerHTML='<span class="ic">'+i+'</span><span class="nm">'+L(l.n)+'<small>'+L(l.d)+'</small></span><span class="am">'+money(l.v)+'</span><span class="pb"><i></i></span>';
+    b.addEventListener('click',function(){ animTo(tOf(l.v),1600); }); l.el=b; l.bar=b.querySelector('.pb i'); li.appendChild(b); lvEl.appendChild(li); }); }
+  build(); onLang.push(build);
+  function size(){ var d=Math.min(devicePixelRatio||1,2); W=cv.clientWidth; H=cv.clientHeight; cv.width=W*d; cv.height=H*d; ctx.setTransform(d,0,0,d,0,0); }
+  size(); addEventListener('resize',size);
+  function geo(){ var top=64, x0=12, x1=W-12, y0=top, y1=H-12, k=Math.min(Math.sin(Math.PI/nS)*.82,.45), avail=Math.min(x1-x0,y1-y0)/2, R=avail/(1+k*1.6);
+    return {cx:(x0+x1)/2,cy:(y0+y1)/2+R*k*.15,R:R,sr:R*k}; }
+  function sp(i,g){ if(i<0) return {x:g.cx,y:g.cy,r:g.sr*.9}; var a=-Math.PI/2+i*2*Math.PI/nS; return {x:g.cx+Math.cos(a)*g.R,y:g.cy+Math.sin(a)*g.R,r:g.sr}; }
+  function na(){ return {s:Math.floor(Math.random()*nS),a:Math.random()*6.283,d:.15+Math.random()*.8,sp:(Math.random()-.5)*.002,x:null,y:null}; }
+  var vals=[]; for(var i=0;i<12;i++) vals.push({a:Math.random()*6.283,d:.2+Math.random()*.7,x:null,y:null});
+  var raf=null; function animTo(t,dur){ if(raf) cancelAnimationFrame(raf); var t0=performance.now(), f0=adoptT; if(reduce) dur=10; (function f(n){ var p=Math.min(1,(n-t0)/dur), e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2; adoptT=f0+(t-f0)*e; if(p<1) raf=requestAnimationFrame(f); else raf=null; })(t0); }
+  document.getElementById('nextLv').addEventListener('click',function(){ var V=V0*Math.exp(LS*adoptT), nx=LV.filter(function(l){ return l.v>V*1.002; })[0]; if(nx) animTo(tOf(nx.v),1800); });
+  document.getElementById('mass').addEventListener('click',function(){ animTo(1,8000); });
+  document.getElementById('reset').addEventListener('click',function(){ animTo(0,1200); passed={0:1}; });
+  var toast=document.getElementById('toast'), tt=null;
+  function showToast(m){ toast.textContent=m; toast.classList.add('on'); clearTimeout(tt); tt=setTimeout(function(){ toast.classList.remove('on'); },3600); blip(1320,.07,.5); }
+  var hV=document.getElementById('hV'), hT=document.getElementById('hT'), hN=document.getElementById('hN');
+  function ui(){ var V=V0*Math.exp(LS*adopt), nx=false, s=V/31536000; hV.textContent=money(V); hT.textContent=s>=1e6?money(s):usd(Math.round(s)); hN.textContent=nS;
+    LV.forEach(function(l,i){ var ok=V>=l.v*.998; l.el.classList.toggle('ok',ok); l.el.classList.toggle('next',!ok&&!nx); if(!ok) nx=true; l.bar.style.width=Math.min(100,V/l.v*100)+'%'; if(ok&&l.m&&!passed[i]){ passed[i]=1; showToast(L(l.m)); } }); }
+  function tick(){ nS=3+Math.round(9*Math.pow(smooth(.3,1,adopt),1.3));
+    var tg=Math.round(26*Math.pow(40,adopt)), df=tg-agents.length; if(df>0) for(var k=0;k<Math.min(df,160);k++) agents.push(na()); if(df<0) agents.splice(0,Math.min(-df,160));
+    agents.forEach(function(a){ if(a.s>=nS) a.s=Math.floor(Math.random()*nS); });
+    var by=[]; for(var s=0;s<nS;s++) by.push([]); agents.forEach(function(a){ by[a.s].push(a); });
+    var n=Math.min(700,Math.round(agents.length*(.12+.45*adopt)))+2;
+    for(var i=0;i<n;i++){ var a=agents[Math.floor(Math.random()*agents.length)]; if(!a) break; var cr=Math.random()<.16, pool=cr?by[(a.s+1+Math.floor(Math.random()*(nS-1)))%nS]:by[a.s]; if(!pool||!pool.length) continue; var b=pool[Math.floor(Math.random()*pool.length)]; if(b===a) continue; pulses.push({a:a,b:b,t:0,dur:cr?2400:520,cr:cr}); }
+    for(var s=0;s<nS;s++) pulses.push({sh:s,b:vals[Math.floor(Math.random()*vals.length)],t:0,dur:560,meta:true});
+    blip(300+500*adopt,.02,.06); }
+  visWatch(cv,function(v){ vis=v; last=0; });
+  (function frame(now){ requestAnimationFrame(frame); adopt+=(adoptT-adopt)*.08; if(Math.abs(adoptT-adopt)<.0004) adopt=adoptT; ui(); if(!vis) return;
+    if(!last) last=now; if(now-last>=600){ last+=600; if(now-last>1200) last=now; tick(); }
+    var g=geo(), mc=sp(-1,g), sh=[]; ctx.clearRect(0,0,W,H);
+    for(var s=0;s<nS;s++){ var p=sp(s,g); sh.push(p); ctx.strokeStyle=rgba(C['--ink'],.1+.25*adopt); ctx.lineWidth=1+4*adopt*adopt; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(mc.x,mc.y); ctx.stroke(); }
+    for(var s=-1;s<nS;s++){ var p=s<0?mc:sh[s], col=s<0?C['--ink']:C['--teal'], gr=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*1.3);
+      gr.addColorStop(0,rgba(col,.06+.16*adopt)); gr.addColorStop(1,rgba(col,0)); ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*1.3,0,6.283); ctx.fill();
+      ctx.strokeStyle=rgba(col,.35); ctx.lineWidth=1; ctx.setLineDash([2,5]); ctx.beginPath(); ctx.arc(p.x,p.y,p.r*1.08,0,6.283); ctx.stroke(); ctx.setLineDash([]);
+      if(p.r>18){ ctx.fillStyle=rgba(C['--ink-2'],.95); ctx.font='600 11px Sora, sans-serif'; ctx.textAlign='center'; ctx.fillText(s<0?'Metachain':'Shard '+s,p.x,p.y-p.r*1.18); } }
+    var dr=adopt>.7?1.2:1.7; ctx.fillStyle=rgba(C['--ink'],.55);
+    agents.forEach(function(a){ var p=sh[a.s]||sh[0]; if(!reduce) a.a+=a.sp; var tx=p.x+Math.cos(a.a)*a.d*p.r, ty=p.y+Math.sin(a.a)*a.d*p.r; if(a.x==null){a.x=tx;a.y=ty;} a.x+=(tx-a.x)*.1; a.y+=(ty-a.y)*.1; ctx.fillRect(a.x-dr,a.y-dr,dr*2,dr*2); });
+    ctx.strokeStyle=rgba(C['--ink'],.8); ctx.lineWidth=1.2;
+    vals.forEach(function(a){ a.a+=.001; var tx=mc.x+Math.cos(a.a)*a.d*mc.r, ty=mc.y+Math.sin(a.a)*a.d*mc.r; if(a.x==null){a.x=tx;a.y=ty;} a.x+=(tx-a.x)*.1; a.y+=(ty-a.y)*.1; ctx.strokeRect(a.x-2.5,a.y-2.5,5,5); });
+    var many=pulses.length>240; if(C.glow) ctx.globalCompositeOperation='lighter';
+    for(var i=pulses.length-1;i>=0;i--){ var q=pulses[i]; q.t+=16/q.dur; var A=q.meta?sh[q.sh]:q.a, B=q.b; if(!A||!B||A.x==null||B.x==null){ pulses.splice(i,1); continue; }
+      var t=Math.min(1,q.t), x,y, col=(q.cr||q.meta)?C['--ink']:C['--teal'];
+      if(q.cr){ // un transfert entre shards passe par la Metachain : deux segments droits
+        if(t<.5){ var u=t*2; x=A.x+(mc.x-A.x)*u; y=A.y+(mc.y-A.y)*u; } else { var u2=(t-.5)*2; x=mc.x+(B.x-mc.x)*u2; y=mc.y+(B.y-mc.y)*u2; }
+        if(!many){ ctx.strokeStyle=rgba(col,.1); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(mc.x,mc.y); ctx.lineTo(B.x,B.y); ctx.stroke(); } }
+      else { x=A.x+(B.x-A.x)*t; y=A.y+(B.y-A.y)*t; if(!many&&!q.meta){ ctx.strokeStyle=rgba(col,.1); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.stroke(); } }
+      var r=q.meta?1.4:(many?1.5:2.2); ctx.fillStyle=rgba(col,q.meta?.5:.9); ctx.fillRect(x-r,y-r,r*2,r*2); if(q.t>=1) pulses.splice(i,1); }
+    ctx.globalCompositeOperation='source-over'; })(performance.now());
+})();
+
+/* ================= CHAPITRE 4 : TOKENOMICS + PRIX SIMULÉ ================= */
+(function(){
+  var SEC=31536000, Y=1, K=0, yS=document.getElementById('tkY'), yO=document.getElementById('tkYo');
+  var B=[{n:'Staking V5',p:50,c:'var(--teal)',d:['validateurs et délégateurs','validators and delegators'],g:0},{n:'Protocol Sustainability',p:10,c:'var(--ink-2)',d:['ingénierie, recherche, audits','engineering, research, audits'],g:0},{n:'Growth Dividend',p:20,c:'color-mix(in srgb,var(--teal) 45%,var(--surface))',d:['incitations DeFi pour les utilisateurs','DeFi incentives for users'],g:1},{n:'Ecosystem Growth Fund',p:20,c:'var(--ink)',d:['bâtisseurs, fonds gouverné par un DAO','builders, DAO-governed fund'],g:1}];
+  function rate(y){ return Math.max(2,8.757-.25*(y-1)); } function unl(){ return K?1:.6; } function burnC(y){ return Math.min(50,10+5*(y-1)); }
+  var dn=document.getElementById('donut'), lg=document.getElementById('legend');
+  function donut(){ var r=rate(Y), R=78, Cc=2*Math.PI*R, off=0, h='<circle cx="100" cy="100" r="'+R+'" fill="none" stroke="var(--bg-2)" stroke-width="26"/>';
+    B.forEach(function(b){ var len=Cc*b.p/100, lock=b.g&&!K; h+='<circle cx="100" cy="100" r="'+R+'" fill="none" stroke="'+b.c+'" stroke-width="26" stroke-dasharray="'+(len-2)+' '+(Cc-len+2)+'" stroke-dashoffset="'+(-off)+'" transform="rotate(-90 100 100)" opacity="'+(lock?.22:1)+'"/>'; off+=len; });
+    h+='<text x="100" y="98" text-anchor="middle" class="dn-big">'+pct(r*unl(),2)+'</text><text x="100" y="116" text-anchor="middle" class="dn-sm">'+(LANG==='en'?'effective emission':'émission effective')+'</text><text x="100" y="131" text-anchor="middle" class="dn-sm">'+(LANG==='en'?'of '+pct(r,3)+' in theory':'sur '+pct(r,3)+' théoriques')+'</text>';
+    dn.innerHTML=h; lg.innerHTML=B.map(function(b){ var lock=b.g&&!K; return '<li class="'+(lock?'locked':'')+'"><i style="background:'+b.c+'"></i><span>'+b.n+(lock?(LANG==='en'?' · locked':' · verrouillé'):'')+'<small>'+L(b.d)+'</small></span><b>'+pct(b.p)+'</b></li>'; }).join(''); }
+  function fee(){ var x=burnC(Y); document.getElementById('fbB').style.flexBasis=(100-x)+'%'; document.getElementById('fbX').style.flexBasis=x+'%'; document.getElementById('fbBl').textContent=(LANG==='en'?'Developers ':'Développeurs ')+pct(100-x); document.getElementById('fbXl').textContent=(LANG==='en'?'Burned ':'Brûlé ')+pct(x); }
+  var tps=document.getElementById('tps'), sh=document.getElementById('sh'), E=0, BU=0, NET=0;
+  function tpsV(){ return Math.pow(10,tps.value/1000*4); }
+  function calc(){ var t=tpsV(), s=sh.value/100, bs=s+(1-s)*burnC(Y)/100; E=SUPPLY0*rate(Y)/100*unl(); BU=t*SEC*FEE*bs; NET=(E-BU)/SUPPLY0*100;
+    document.getElementById('tpsO').textContent=fr(t,t<10?1:0); var v=+sh.value; document.getElementById('shO').textContent=v<20?T('smA').toLowerCase():v>80?T('smB').toLowerCase():pct(v)+(LANG==='en'?' payments':' de paiements');
+    document.getElementById('fE').textContent=fr(E); document.getElementById('fB').textContent=fr(BU);
+    document.getElementById('fEu').textContent='≈ '+money(E*PRICE)+(LANG==='en'?' at today\u2019s price':' au prix actuel'); document.getElementById('fBu').textContent='≈ '+money(BU*PRICE)+(LANG==='en'?' at today\u2019s price':' au prix actuel');
+    var vb=document.getElementById('vb'); vb.textContent=(NET>0?'+':'−')+pct(Math.abs(NET),2); vb.className='verdict-big '+(NET>0?'inf':'def');
+    document.getElementById('vbl').textContent=LANG==='en'?(NET>0?'net supply per year: inflationary':'net supply per year: deflationary'):(NET>0?'d\u2019offre nette par an : inflationniste':'d\u2019offre nette par an : déflationniste');
+    var be=E/(SEC*FEE*bs); document.getElementById('be').innerHTML=LANG==='en'?'Break-even: <b>≈ '+fr(be)+' transactions per second</b> in year '+Y+(K?', with strong growth':', without measured growth')+'. Beyond that, EGLD burns more than it issues.':'Point d\u2019équilibre : <b>≈ '+fr(be)+' transactions par seconde</b> en année '+Y+(K?', avec une croissance forte':', sans croissance mesurée')+'. Au-delà, EGLD brûle plus qu\u2019il n\u2019en émet.';
+    whatif(); }
+  // prix simulé : capitalisation choisie ÷ offre estimée
+  var cap=document.getElementById('wiCap'), CAP0=SUPPLY0*PRICE, CAPMAX=2e12;
+  var capX=null; function capV(){ return capX!=null?capX:CAP0*Math.pow(CAPMAX/CAP0,cap.value/1000); }
+  function setCap(v){ cap.value=Math.round(Math.log(v/CAP0)/Math.log(CAPMAX/CAP0)*1000); capX=v; whatif(); }
+  function presets(){ var el=document.getElementById('wiPre'); el.innerHTML=''; [[CAP0,LANG==='en'?'EGLD today':'EGLD aujourd\u2019hui'],[70e9,'Solana'],[325e9,'Ethereum'],[1670e9,'Bitcoin']].forEach(function(p){ var b=document.createElement('button'); b.type='button'; b.className='pill'; b.textContent=p[1]+(p[0]>CAP0*2?' · '+money(p[0]):''); b.addEventListener('click',function(){ setCap(p[0]); }); el.appendChild(b); }); }
+  function whatif(){ var c=capV(), p=c/SUPPLY0;
+    document.getElementById('wiCapO').textContent=money(c); document.getElementById('wiPrice').textContent=usd(p)+' / EGLD';
+    document.getElementById('wiLine').textContent=LANG==='en'?('×'+fr(p/PRICE,p/PRICE<10?1:0)+' vs today\u2019s '+usd(PRICE)+' · with today\u2019s supply of 30.8M EGLD'):('×'+fr(p/PRICE,p/PRICE<10?1:0)+' par rapport aux '+usd(PRICE)+' d\u2019aujourd\u2019hui · avec l\u2019offre actuelle de 30,8 M EGLD'); }
+  cap.addEventListener('input',function(){ capX=null; whatif(); });
+  function pb(){ document.getElementById('pbP').textContent=usd(PRICE); document.getElementById('pbS').textContent='≈ '+(LANG==='en'?'30.8M':'30,8 M'); document.getElementById('pbC').textContent='≈ '+money(CAP0); }
+  function all(){ yO.textContent=LANG==='en'?'Year '+Y+' · Dec '+(2024+Y)+' → Dec '+(2025+Y):'Année '+Y+' · déc. '+(2024+Y)+' → déc. '+(2025+Y); donut(); fee(); calc(); pb(); presets(); }
+  yS.addEventListener('input',function(){ Y=+yS.value; all(); });
+  [].forEach.call(document.querySelectorAll('#tkK button'),function(b){ b.addEventListener('click',function(){ K=+b.dataset.k; [].forEach.call(document.querySelectorAll('#tkK button'),function(x){ x.setAttribute('aria-pressed',x===b); }); all(); }); });
+  tps.addEventListener('input',calc); sh.addEventListener('input',calc);
+  [].forEach.call(document.querySelectorAll('.sim .presets .pill'),function(b){ b.addEventListener('click',function(){ tps.value=Math.round(Math.log10(+b.dataset.t)/4*1000); calc(); }); b.textContent=b.textContent; });
+  all(); onLang.push(function(){ all(); [].forEach.call(document.querySelectorAll('.sim .presets .pill'),function(b){ b.textContent=fr(+b.dataset.t); }); });
+  // balance animée
+  var bc=document.getElementById('balCv'), bx=bc.getContext('2d'), BW=0,BH=0, coins=[], fl=[], vis=false, tilt=0;
+  function bsz(){ var d=Math.min(devicePixelRatio||1,2); BW=bc.clientWidth; BH=bc.clientHeight; bc.width=BW*d; bc.height=BH*d; bx.setTransform(d,0,0,d,0,0); }
+  bsz(); addEventListener('resize',bsz); visWatch(bc,function(v){ vis=v; });
+  (function loop(){ requestAnimationFrame(loop); if(!vis) return; var tot=E+BU||1, ratio=(BU-E)/tot; tilt+=((-Math.max(-1,Math.min(1,ratio)))*.28-tilt)*.08; bx.clearRect(0,0,BW,BH);
+    var mx=BW/2, py=BH*.42, arm=Math.min(BW*.36,190), lx=mx-Math.cos(tilt)*arm, ly=py+Math.sin(tilt)*arm, rx=mx+Math.cos(tilt)*arm, ry=py-Math.sin(tilt)*arm;
+    bx.fillStyle=C['--rule']; bx.beginPath(); bx.moveTo(mx-26,BH-6); bx.lineTo(mx+26,BH-6); bx.lineTo(mx,py); bx.closePath(); bx.fill();
+    bx.strokeStyle=C['--ink']; bx.lineWidth=3; bx.beginPath(); bx.moveTo(lx,ly); bx.lineTo(rx,ry); bx.stroke();
+    function pan(x,y,col,lab){ bx.strokeStyle=col; bx.lineWidth=2; bx.beginPath(); bx.moveTo(x-40,y+30); bx.lineTo(x,y); bx.lineTo(x+40,y+30); bx.stroke(); bx.fillStyle=col; bx.fillRect(x-44,y+30,88,5); bx.font='700 11px Sora, sans-serif'; bx.textAlign='center'; bx.fillStyle=C['--ink-2']; bx.fillText(lab,x,y+52); }
+    pan(lx,ly,C['--teal'],LANG==='en'?'Created':'Créés'); pan(rx,ry,C['--ink'],LANG==='en'?'Burned':'Brûlés');
+    if(!reduce&&Math.random()<Math.min(.6,E/3e6)) coins.push({x:lx+(Math.random()-.5)*60,y:-8,v:1.5+Math.random()});
+    bx.fillStyle=C['--teal']; coins=coins.filter(function(k){ k.y+=k.v; k.v+=.08; if(k.y>ly+26) return false; bx.beginPath(); bx.arc(k.x,k.y,3.2,0,6.283); bx.fill(); return true; });
+    var q=Math.min(1,BU/Math.max(E,1)); if(!reduce) for(var i=0;i<Math.round(1+q*4);i++) if(Math.random()<Math.min(.9,BU/1e6)) fl.push({x:rx+(Math.random()-.5)*70,y:ry+26,l:1,v:.8+Math.random()*1.6});
+    fl=fl.filter(function(f){ f.y-=f.v; f.l-=.025; f.x+=(Math.random()-.5); if(f.l<=0) return false; bx.fillStyle=rgba(C['--ink'],f.l*.9); bx.beginPath(); bx.arc(f.x,f.y,2+3*f.l,0,6.283); bx.fill(); return true; }); })();
+})();
+
+/* ================= CHAPITRE 5 : DEMAIN ================= */
+(function(){
+  var F=[[['Des agents IA peuvent payer une API sur MultiversX avec x402, sans formulaire ni clic humain.','Le web se paie au centime : chaque article, chaque requête, chaque réponse. Plus besoin d\u2019abonnement ni de publicité pour financer ce qu\u2019on lit.'],['AI agents can pay an API on MultiversX with x402, with no form and no human click.','The web gets paid by the cent: every article, every request, every answer. No need for subscriptions or ads to fund what we read.']],
+   [['Chaque agent peut porter une identité on-chain et une réputation avec MX-8004.','Des places de marché où des millions d\u2019agents se choisissent sur leur historique, en une fraction de seconde.'],['Every agent can carry an on-chain identity and reputation with MX-8004.','Marketplaces where millions of agents choose each other by track record, in a fraction of a second.']],
+   [['BlackRock voit la puissance de calcul devenir un actif, avec 1 100 Md$ de revenus cloud attendus en 2030.','Une seconde de GPU se paie comme un café : l\u2019agent compare, réserve, règle, relâche.'],['BlackRock sees compute becoming an asset, with $1.1T in cloud revenue expected by 2030.','A second of GPU is paid like a coffee: the agent compares, books, settles, releases.']],
+   [['xMoney a préparé EURXM, un euro numérique conforme MiCA, et émet déjà des cartes.','Le même euro circule entre votre agent, la boulangerie en bas de chez vous et un serveur à l\u2019autre bout du monde. Instantanément.'],['xMoney has prepared EURXM, a MiCA-compliant digital euro, and already issues cards.','The same euro moves between your agent, the bakery downstairs and a server across the world. Instantly.']]];
+  var el=document.getElementById('futures'), io=null;
+  function build(){ el.innerHTML=''; F.forEach(function(f){ var x=L(f), d=document.createElement('div'); d.className='future in'; d.innerHTML='<div class="now"><span class="lbl">'+(LANG==='en'?'Today':'Aujourd\u2019hui')+'</span><p>'+x[0]+'</p></div><div class="then"><span class="lbl">'+(LANG==='en'?'Tomorrow':'Demain')+'</span><p>'+x[1]+'</p></div>'; el.appendChild(d); }); }
+  build(); onLang.push(build);
+})();
+
+})();
+
+</script>
+</body>
+</html>
